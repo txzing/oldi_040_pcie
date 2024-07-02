@@ -597,13 +597,13 @@ proc create_hier_cell_pcie_hier_0 { parentCell nameHier } {
   current_bd_instance $oldCurInst
 }
 
-# Hierarchical cell: oldi_in_x1
-proc create_hier_cell_oldi_in_x1 { parentCell nameHier } {
+# Hierarchical cell: oldi_in
+proc create_hier_cell_oldi_in { parentCell nameHier } {
 
   variable script_folder
 
   if { $parentCell eq "" || $nameHier eq "" } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2092 -severity "ERROR" "create_hier_cell_oldi_in_x1() - Empty argument(s)!"}
+     catch {common::send_gid_msg -ssname BD::TCL -id 2092 -severity "ERROR" "create_hier_cell_oldi_in() - Empty argument(s)!"}
      return
   }
 
@@ -1092,8 +1092,8 @@ proc create_root_design { parentCell } {
   # Create instance: ethernet_subsystem
   create_hier_cell_ethernet_subsystem [current_bd_instance .] ethernet_subsystem
 
-  # Create instance: oldi_in_x1
-  create_hier_cell_oldi_in_x1 [current_bd_instance .] oldi_in_x1
+  # Create instance: oldi_in
+  create_hier_cell_oldi_in [current_bd_instance .] oldi_in
 
   # Create instance: pcie_hier_0
   create_hier_cell_pcie_hier_0 [current_bd_instance .] pcie_hier_0
@@ -1123,7 +1123,7 @@ proc create_root_design { parentCell } {
   connect_bd_intf_net -intf_net processor_subsystem_UART_2 [get_bd_intf_ports uart_1] [get_bd_intf_pins processor_subsystem/uart_1]
   connect_bd_intf_net -intf_net processor_subsystem_i2c_0 [get_bd_intf_ports i2c_0] [get_bd_intf_pins processor_subsystem/i2c_0]
   connect_bd_intf_net -intf_net sys_1 [get_bd_intf_ports sys] [get_bd_intf_pins clock_and_memory_subsystem/sys_clk]
-  connect_bd_intf_net -intf_net v_vid_in_axi4s_0_video_out [get_bd_intf_pins clock_and_memory_subsystem/S_AXIS_S2MM] [get_bd_intf_pins oldi_in_x1/video_out]
+  connect_bd_intf_net -intf_net v_vid_in_axi4s_0_video_out [get_bd_intf_pins clock_and_memory_subsystem/S_AXIS_S2MM] [get_bd_intf_pins oldi_in/video_out]
 
   # Create port connections
   connect_bd_net -net GND_dout [get_bd_pins GND/dout] [get_bd_pins clock_and_memory_subsystem/sys_rst] [get_bd_pins pcie_hier_0/usr_irq_req]
@@ -1131,23 +1131,23 @@ proc create_root_design { parentCell } {
   connect_bd_net -net In4_1 [get_bd_pins ethernet_subsystem/tmr_irq] [get_bd_pins processor_subsystem/ethernet_tmr_irq]
   connect_bd_net -net LMB_Rst_1 [get_bd_pins clock_and_memory_subsystem/LMB_reset] [get_bd_pins processor_subsystem/LMB_reset]
   connect_bd_net -net Reset_2 [get_bd_pins clock_and_memory_subsystem/mb_reset] [get_bd_pins processor_subsystem/mb_reset]
-  connect_bd_net -net VCC_dout [get_bd_pins VCC/dout] [get_bd_pins clock_and_memory_subsystem/dcm_locked] [get_bd_pins clock_and_memory_subsystem/ext_reset_in] [get_bd_pins ethernet_subsystem/clk_wiz_resetn] [get_bd_pins oldi_in_x1/axis_enable]
+  connect_bd_net -net VCC_dout [get_bd_pins VCC/dout] [get_bd_pins clock_and_memory_subsystem/dcm_locked] [get_bd_pins clock_and_memory_subsystem/ext_reset_in] [get_bd_pins ethernet_subsystem/clk_wiz_resetn] [get_bd_pins oldi_in/axis_enable]
   connect_bd_net -net axi_dma_0_mm2s_introut [get_bd_pins ethernet_subsystem/mm2s_irq] [get_bd_pins processor_subsystem/ethernet_dma_mm2s_irq]
   connect_bd_net -net axi_dma_0_s2mm_introut [get_bd_pins ethernet_subsystem/s2mm_irq] [get_bd_pins processor_subsystem/ethernet_dma_s2mm_irq]
   connect_bd_net -net axi_ethernet_0_interrupt [get_bd_pins ethernet_subsystem/ethernet_irq] [get_bd_pins processor_subsystem/ethernet_irq]
   connect_bd_net -net axi_ethernet_0_mac_irq [get_bd_pins ethernet_subsystem/mac_irq] [get_bd_pins processor_subsystem/ethernet_mac_irq]
   connect_bd_net -net axi_ethernet_0_phy_rst_n [get_bd_ports phy_reset_out] [get_bd_pins ethernet_subsystem/phy_reset_out]
-  connect_bd_net -net clkin1_n_0_1 [get_bd_ports ch0_clkin0_n] [get_bd_pins oldi_in_x1/ch0_clkin0_n]
-  connect_bd_net -net clkin1_p_0_1 [get_bd_ports ch0_clkin0_p] [get_bd_pins oldi_in_x1/ch0_clkin0_p]
-  connect_bd_net -net clkin2_n_0_1 [get_bd_ports ch0_clkin1_n] [get_bd_pins oldi_in_x1/ch0_clkin1_n]
-  connect_bd_net -net clkin2_p_0_1 [get_bd_ports ch0_clkin1_p] [get_bd_pins oldi_in_x1/ch0_clkin1_p]
-  connect_bd_net -net clock_and_memory_subsystem_c0_ddr4_ui_clk [get_bd_pins clock_and_memory_subsystem/c0_ddr4_ui_clk] [get_bd_pins oldi_in_x1/aclk]
-  connect_bd_net -net clock_and_memory_subsystem_peripheral_aresetn [get_bd_pins clock_and_memory_subsystem/peripheral_aresetn] [get_bd_pins oldi_in_x1/aresetn]
-  connect_bd_net -net clock_and_memory_subsystem_peripheral_reset [get_bd_pins clock_and_memory_subsystem/peripheral_reset] [get_bd_pins oldi_in_x1/reset]
-  connect_bd_net -net datain1_n_0_1 [get_bd_ports ch0_datain0_n] [get_bd_pins oldi_in_x1/ch0_datain0_n]
-  connect_bd_net -net datain1_p_0_1 [get_bd_ports ch0_datain0_p] [get_bd_pins oldi_in_x1/ch0_datain0_p]
-  connect_bd_net -net datain2_n_0_1 [get_bd_ports ch0_datain1_n] [get_bd_pins oldi_in_x1/ch0_datain1_n]
-  connect_bd_net -net datain2_p_0_1 [get_bd_ports ch0_datain1_p] [get_bd_pins oldi_in_x1/ch0_datain1_p]
+  connect_bd_net -net clkin1_n_0_1 [get_bd_ports ch0_clkin0_n] [get_bd_pins oldi_in/ch0_clkin0_n]
+  connect_bd_net -net clkin1_p_0_1 [get_bd_ports ch0_clkin0_p] [get_bd_pins oldi_in/ch0_clkin0_p]
+  connect_bd_net -net clkin2_n_0_1 [get_bd_ports ch0_clkin1_n] [get_bd_pins oldi_in/ch0_clkin1_n]
+  connect_bd_net -net clkin2_p_0_1 [get_bd_ports ch0_clkin1_p] [get_bd_pins oldi_in/ch0_clkin1_p]
+  connect_bd_net -net clock_and_memory_subsystem_c0_ddr4_ui_clk [get_bd_pins clock_and_memory_subsystem/c0_ddr4_ui_clk] [get_bd_pins oldi_in/aclk]
+  connect_bd_net -net clock_and_memory_subsystem_peripheral_aresetn [get_bd_pins clock_and_memory_subsystem/peripheral_aresetn] [get_bd_pins oldi_in/aresetn]
+  connect_bd_net -net clock_and_memory_subsystem_peripheral_reset [get_bd_pins clock_and_memory_subsystem/peripheral_reset] [get_bd_pins oldi_in/reset]
+  connect_bd_net -net datain1_n_0_1 [get_bd_ports ch0_datain0_n] [get_bd_pins oldi_in/ch0_datain0_n]
+  connect_bd_net -net datain1_p_0_1 [get_bd_ports ch0_datain0_p] [get_bd_pins oldi_in/ch0_datain0_p]
+  connect_bd_net -net datain2_n_0_1 [get_bd_ports ch0_datain1_n] [get_bd_pins oldi_in/ch0_datain1_n]
+  connect_bd_net -net datain2_p_0_1 [get_bd_ports ch0_datain1_p] [get_bd_pins oldi_in/ch0_datain1_p]
   connect_bd_net -net ddr4_0_addn_ui_clkout1 [get_bd_pins clock_and_memory_subsystem/aclk] [get_bd_pins ethernet_subsystem/aclk] [get_bd_pins ethernet_subsystem/clk_wiz_clk_in] [get_bd_pins processor_subsystem/aclk]
   connect_bd_net -net pcie_resetn_1 [get_bd_ports pcie_resetn] [get_bd_pins pcie_hier_0/pcie_resetn]
   connect_bd_net -net processor_subsystem_mb_debug_sys_rst [get_bd_pins clock_and_memory_subsystem/mb_debug_sys_rst] [get_bd_pins processor_subsystem/mb_debug_sys_rst]
