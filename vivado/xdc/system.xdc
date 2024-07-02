@@ -27,6 +27,11 @@ set_property -dict {PACKAGE_PIN J26 IOSTANDARD LVCMOS33} [get_ports uart_0_txd]
 #set_property -dict {PACKAGE_PIN H26 IOSTANDARD LVCMOS33} [get_ports uart_1_txen]
 
 
+## sda
+set_property -dict {PACKAGE_PIN AF34 IOSTANDARD LVCMOS18} [get_ports i2c_0_sda_io]
+## scl
+set_property -dict {PACKAGE_PIN AE33 IOSTANDARD LVCMOS18} [get_ports i2c_0_scl_io]
+
 ## EEPROM
 ### sda
 #set_property -dict {PACKAGE_PIN P26 IOSTANDARD LVCMOS33} [get_ports i2c_0_sda_io]
