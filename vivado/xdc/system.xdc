@@ -17,72 +17,72 @@ set_property -dict {PACKAGE_PIN AK17 IOSTANDARD DIFF_SSTL12} [get_ports sys_clk_
 #set_property -dict {PACKAGE_PIN Y7   IOSTANDARD LVCMOS33} [get_ports {qspi_flash_io3_io}]
 
 #rs232
-set_property -dict {PACKAGE_PIN K27 IOSTANDARD LVCMOS33} [get_ports uart_0_rxd]
-set_property -dict {PACKAGE_PIN K26 IOSTANDARD LVCMOS33} [get_ports uart_0_txd]
+set_property -dict {PACKAGE_PIN H26 IOSTANDARD LVCMOS33} [get_ports uart_0_rxd]
+set_property -dict {PACKAGE_PIN J26 IOSTANDARD LVCMOS33} [get_ports uart_0_txd]
 
-#rs485
-set_property -dict {PACKAGE_PIN H27 IOSTANDARD LVCMOS33} [get_ports uart_1_rxd]
-set_property -dict {PACKAGE_PIN J26 IOSTANDARD LVCMOS33} [get_ports uart_1_txd]
-#485 en
-set_property -dict {PACKAGE_PIN H26 IOSTANDARD LVCMOS33} [get_ports uart_1_txen]
+##rs485
+#set_property -dict {PACKAGE_PIN H27 IOSTANDARD LVCMOS33} [get_ports uart_1_rxd]
+#set_property -dict {PACKAGE_PIN J26 IOSTANDARD LVCMOS33} [get_ports uart_1_txd]
+##485 en
+#set_property -dict {PACKAGE_PIN H26 IOSTANDARD LVCMOS33} [get_ports uart_1_txen]
 
 
-# EEPROM
-## sda
-set_property -dict {PACKAGE_PIN P26 IOSTANDARD LVCMOS33} [get_ports i2c_0_sda_io]
-set_property UNAVAILABLE_DURING_CALIBRATION true [get_ports i2c_0_sda_io]
-## scl
-set_property -dict {PACKAGE_PIN R25 IOSTANDARD LVCMOS33} [get_ports i2c_0_scl_io]
-## wp
-set_property -dict {PACKAGE_PIN R26 IOSTANDARD LVCMOS33} [get_ports {gpio_tri_io[0]}]
-# 984_1_PDB(U12)
-set_property -dict {PACKAGE_PIN W34 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[1]}]
-# 984_1_INTB_IN
-set_property -dict {PACKAGE_PIN V33 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[2]}]
-# 984_F1_GPIO0
-set_property -dict {PACKAGE_PIN V34 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[3]}]
-# 984_F1_GPIO4
-set_property -dict {PACKAGE_PIN U34 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[4]}]
-# 984_2_PDB
-set_property -dict {PACKAGE_PIN W30 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[5]}]
-# 984_2_INTB_IN
-set_property -dict {PACKAGE_PIN Y30 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[6]}]
-# 984_F2_GPIO0
-set_property -dict {PACKAGE_PIN AB29 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[7]}]
-# 984_F2_GPIO4
-set_property -dict {PACKAGE_PIN AA29 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[8]}]
+## EEPROM
+### sda
+#set_property -dict {PACKAGE_PIN P26 IOSTANDARD LVCMOS33} [get_ports i2c_0_sda_io]
+#set_property UNAVAILABLE_DURING_CALIBRATION true [get_ports i2c_0_sda_io]
+### scl
+#set_property -dict {PACKAGE_PIN R25 IOSTANDARD LVCMOS33} [get_ports i2c_0_scl_io]
+### wp
+#set_property -dict {PACKAGE_PIN R26 IOSTANDARD LVCMOS33} [get_ports {gpio_tri_io[0]}]
+## 984_1_PDB(U12)
+#set_property -dict {PACKAGE_PIN W34 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[1]}]
+## 984_1_INTB_IN
+#set_property -dict {PACKAGE_PIN V33 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[2]}]
+## 984_F1_GPIO0
+#set_property -dict {PACKAGE_PIN V34 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[3]}]
+## 984_F1_GPIO4
+#set_property -dict {PACKAGE_PIN U34 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[4]}]
+## 984_2_PDB
+#set_property -dict {PACKAGE_PIN W30 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[5]}]
+## 984_2_INTB_IN
+#set_property -dict {PACKAGE_PIN Y30 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[6]}]
+## 984_F2_GPIO0
+#set_property -dict {PACKAGE_PIN AB29 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[7]}]
+## 984_F2_GPIO4
+#set_property -dict {PACKAGE_PIN AA29 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[8]}]
 
-# 988_1_PDB
-set_property -dict {PACKAGE_PIN AB31 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[9]}]
-# 988_1_INTB_IN
-set_property -dict {PACKAGE_PIN Y33 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[10]}]
-# 988_F1_GPIO4
-set_property -dict {PACKAGE_PIN W33 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[11]}]
-# 988_1_DE
-set_property -dict {PACKAGE_PIN AB30 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[12]}]
-# 988_1_HS
-set_property -dict {PACKAGE_PIN AD33 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[13]}]
-# 988_1_VS
-set_property -dict {PACKAGE_PIN AC33 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[14]}]
+## 988_1_PDB
+#set_property -dict {PACKAGE_PIN AB31 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[9]}]
+## 988_1_INTB_IN
+#set_property -dict {PACKAGE_PIN Y33 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[10]}]
+## 988_F1_GPIO4
+#set_property -dict {PACKAGE_PIN W33 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[11]}]
+## 988_1_DE
+#set_property -dict {PACKAGE_PIN AB30 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[12]}]
+## 988_1_HS
+#set_property -dict {PACKAGE_PIN AD33 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[13]}]
+## 988_1_VS
+#set_property -dict {PACKAGE_PIN AC33 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[14]}]
 
-# 988_2_PDB
-set_property -dict {PACKAGE_PIN AG32 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[15]}]
-# 988_2_INTB_IN
-set_property -dict {PACKAGE_PIN AD30 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[16]}]
-# 988_F2_GPIO4
-set_property -dict {PACKAGE_PIN AD31 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[17]}]
-# 988_2_DE
-set_property -dict {PACKAGE_PIN AG31 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[18]}]
-# 988_2_HS
-set_property -dict {PACKAGE_PIN AG29 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[19]}]
-# 988_2_VS
-set_property -dict {PACKAGE_PIN AF29 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[20]}]
+## 988_2_PDB
+#set_property -dict {PACKAGE_PIN AG32 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[15]}]
+## 988_2_INTB_IN
+#set_property -dict {PACKAGE_PIN AD30 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[16]}]
+## 988_F2_GPIO4
+#set_property -dict {PACKAGE_PIN AD31 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[17]}]
+## 988_2_DE
+#set_property -dict {PACKAGE_PIN AG31 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[18]}]
+## 988_2_HS
+#set_property -dict {PACKAGE_PIN AG29 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[19]}]
+## 988_2_VS
+#set_property -dict {PACKAGE_PIN AF29 IOSTANDARD LVCMOS18} [get_ports {gpio_tri_io[20]}]
 
-# 141_PWD
-set_property -dict {PACKAGE_PIN K25 IOSTANDARD LVCMOS33} [get_ports {gpio_tri_io[21]}]
+## 141_PWD
+#set_property -dict {PACKAGE_PIN K25 IOSTANDARD LVCMOS33} [get_ports {gpio_tri_io[21]}]
 
-# PL_LOCK_LED
-set_property -dict {PACKAGE_PIN G27 IOSTANDARD LVCMOS33} [get_ports c0_init_calib_complete]
+### PL_LOCK_LED
+##set_property -dict {PACKAGE_PIN G27 IOSTANDARD LVCMOS33} [get_ports c0_init_calib_complete]
 
 
 set_property PACKAGE_PIN AG21 [get_ports {C0_DDR4_dqs_t[0]}]
@@ -229,4 +229,80 @@ set_property -dict {PACKAGE_PIN N24 IOSTANDARD LVCMOS33} [get_ports rgmii_txc]
 
 set_property -dict {PACKAGE_PIN L23 IOSTANDARD LVCMOS33} [get_ports mdio_mdc]
 set_property -dict {PACKAGE_PIN L24 IOSTANDARD LVCMOS33} [get_ports mdio_mdio_io]
+
+
+create_clock -period 20 [get_ports ch0_clkin0_p]
+create_clock -period 20 [get_ports ch0_clkin1_p]
+
+set_property IOSTANDARD LVDS_25 [get_ports ch0_clkin0_p]
+set_property DIFF_TERM_ADV TERM_100 [get_ports ch0_clkin0_p]
+set_property PACKAGE_PIN AG11 [get_ports ch0_clkin0_p]
+set_property PACKAGE_PIN AH11 [get_ports ch0_clkin0_n]
+set_property IOSTANDARD LVDS_25 [get_ports ch0_clkin0_n]
+set_property DIFF_TERM_ADV TERM_100 [get_ports ch0_clkin0_n]
+
+set_property IOSTANDARD LVDS_25 [get_ports {ch0_datain0_p[0]}]
+set_property DIFF_TERM_ADV TERM_100 [get_ports {ch0_datain0_p[0]}]
+set_property PACKAGE_PIN AJ9 [get_ports {ch0_datain0_p[0]}]
+set_property PACKAGE_PIN AJ8 [get_ports {ch0_datain0_n[0]}]
+set_property IOSTANDARD LVDS_25 [get_ports {ch0_datain0_n[0]}]
+set_property DIFF_TERM_ADV TERM_100 [get_ports {ch0_datain0_n[0]}]
+set_property IOSTANDARD LVDS_25 [get_ports {ch0_datain0_p[1]}]
+set_property DIFF_TERM_ADV TERM_100 [get_ports {ch0_datain0_p[1]}]
+set_property PACKAGE_PIN AK10 [get_ports {ch0_datain0_p[1]}]
+set_property PACKAGE_PIN AL9 [get_ports {ch0_datain0_n[1]}]
+set_property IOSTANDARD LVDS_25 [get_ports {ch0_datain0_n[1]}]
+set_property DIFF_TERM_ADV TERM_100 [get_ports {ch0_datain0_n[1]}]
+set_property IOSTANDARD LVDS_25 [get_ports {ch0_datain0_p[2]}]
+set_property DIFF_TERM_ADV TERM_100 [get_ports {ch0_datain0_p[2]}]
+set_property PACKAGE_PIN AM11 [get_ports {ch0_datain0_p[2]}]
+set_property PACKAGE_PIN AN11 [get_ports {ch0_datain0_n[2]}]
+set_property IOSTANDARD LVDS_25 [get_ports {ch0_datain0_n[2]}]
+set_property DIFF_TERM_ADV TERM_100 [get_ports {ch0_datain0_n[2]}]
+set_property IOSTANDARD LVDS_25 [get_ports {ch0_datain0_p[3]}]
+set_property DIFF_TERM_ADV TERM_100 [get_ports {ch0_datain0_p[3]}]
+set_property PACKAGE_PIN AP11 [get_ports {ch0_datain0_p[3]}]
+set_property PACKAGE_PIN AP10 [get_ports {ch0_datain0_n[3]}]
+set_property IOSTANDARD LVDS_25 [get_ports {ch0_datain0_n[3]}]
+set_property DIFF_TERM_ADV TERM_100 [get_ports {ch0_datain0_n[3]}]
+
+set_property DIFF_TERM_ADV TERM_100 [get_ports ch0_clkin1_p]
+set_property IOSTANDARD LVDS_25 [get_ports ch0_clkin1_p]
+set_property PACKAGE_PIN AG12 [get_ports ch0_clkin1_p]
+set_property PACKAGE_PIN AH12 [get_ports ch0_clkin1_n]
+set_property IOSTANDARD LVDS_25 [get_ports ch0_clkin1_n]
+set_property DIFF_TERM_ADV TERM_100 [get_ports ch0_clkin1_n]
+
+set_property IOSTANDARD LVDS_25 [get_ports {ch0_datain1_p[0]}]
+set_property DIFF_TERM_ADV TERM_100 [get_ports {ch0_datain1_p[0]}]
+set_property PACKAGE_PIN AE13 [get_ports {ch0_datain1_p[0]}]
+set_property PACKAGE_PIN AF13 [get_ports {ch0_datain1_n[0]}]
+set_property IOSTANDARD LVDS_25 [get_ports {ch0_datain1_n[0]}]
+set_property DIFF_TERM_ADV TERM_100 [get_ports {ch0_datain1_n[0]}]
+set_property IOSTANDARD LVDS_25 [get_ports {ch0_datain1_p[1]}]
+set_property DIFF_TERM_ADV TERM_100 [get_ports {ch0_datain1_p[1]}]
+set_property PACKAGE_PIN AE12 [get_ports {ch0_datain1_p[1]}]
+set_property PACKAGE_PIN AF12 [get_ports {ch0_datain1_n[1]}]
+set_property IOSTANDARD LVDS_25 [get_ports {ch0_datain1_n[1]}]
+set_property DIFF_TERM_ADV TERM_100 [get_ports {ch0_datain1_n[1]}]
+set_property IOSTANDARD LVDS_25 [get_ports {ch0_datain1_p[2]}]
+set_property DIFF_TERM_ADV TERM_100 [get_ports {ch0_datain1_p[2]}]
+set_property PACKAGE_PIN AF10 [get_ports {ch0_datain1_p[2]}]
+set_property PACKAGE_PIN AG10 [get_ports {ch0_datain1_n[2]}]
+set_property IOSTANDARD LVDS_25 [get_ports {ch0_datain1_n[2]}]
+set_property DIFF_TERM_ADV TERM_100 [get_ports {ch0_datain1_n[2]}]
+set_property IOSTANDARD LVDS_25 [get_ports {ch0_datain1_p[3]}]
+set_property DIFF_TERM_ADV TERM_100 [get_ports {ch0_datain1_p[3]}]
+set_property PACKAGE_PIN AL10 [get_ports {ch0_datain1_p[3]}]
+set_property PACKAGE_PIN AM10 [get_ports {ch0_datain1_n[3]}]
+set_property IOSTANDARD LVDS_25 [get_ports {ch0_datain1_n[3]}]
+set_property DIFF_TERM_ADV TERM_100 [get_ports {ch0_datain1_n[3]}]
+
+#set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets system_i/lvds4x2_1to7_0/inst/rx_inst/iob_clk_in/O]
+set_property LOC PLLE3_ADV_X1Y1 [get_cells system_i/lvds4x2_1to7_0/inst/rx_inst/rx_clkgen/rx_plle2_adv_inst]
+set_property LOC BITSLICE_CONTROL_X1Y3 [get_cells system_i/lvds4x2_1to7_0/inst/icontrol]
+#set_property IODELAY_GROUP IO_DLY0 [get_cells {system_i/lvds4x2_1to7_0/inst/icontrol}]
+#set_property IODELAY_GROUP IO_DLY0 [get_cells {system_i/lvds4x2_1to7_0/inst/rx_inst/rxc_delay/idelay_cs}]
+#set_property IODELAY_GROUP IO_DLY0 [get_cells {system_i/lvds4x2_1to7_0/inst/rx_inst/rxc_delay/idelay_cm}]
+#set_property IODELAY_GROUP IO_DLY0 [get_cells {system_i/lvds4x2_1to7_0/inst/rx_inst/loop0[*].rxn/rxd[*].sipo/idelay_cm}]
 
