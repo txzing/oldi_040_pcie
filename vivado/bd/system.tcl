@@ -124,9 +124,6 @@ set bCheckIPs 1
 if { $bCheckIPs == 1 } {
    set list_check_ips "\ 
 xilinx.com:ip:xlconstant:1.1\
-xilinx.com:ip:system_ila:1.1\
-xilinx.com:ip:util_ds_buf:2.1\
-xilinx.com:ip:xdma:4.1\
 xilinx.com:ip:axi_vdma:6.3\
 xilinx.com:ip:ddr4:2.2\
 xilinx.com:ip:proc_sys_reset:5.0\
@@ -137,6 +134,9 @@ xilinx.com:ip:clk_wiz:6.0\
 user.org:user:lvds4x2_1to7:1.0\
 xilinx.com:ip:v_vid_in_axi4s:4.0\
 xilinx.com:ip:xlconcat:2.1\
+xilinx.com:ip:system_ila:1.1\
+xilinx.com:ip:util_ds_buf:2.1\
+xilinx.com:ip:xdma:4.1\
 xilinx.com:user:AXI_LITE_REG:1.0\
 xilinx.com:ip:axi_iic:2.0\
 xilinx.com:ip:axi_quad_spi:3.2\
@@ -499,8 +499,99 @@ proc create_hier_cell_pcie_hier_0 { parentCell nameHier } {
   current_bd_instance $hier_obj
 
   # Create interface pins
+  create_bd_intf_pin -mode Master -vlnv xilinx.com:interface:aximm_rtl:1.0 M_AXI
+
+  create_bd_intf_pin -mode Master -vlnv xilinx.com:interface:aximm_rtl:1.0 M_AXI_LITE
+
+  create_bd_intf_pin -mode Master -vlnv xilinx.com:interface:pcie_7x_mgt_rtl:1.0 pcie_mgt
+
+  create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:diff_clock_rtl:1.0 pcie_sys_clk
+
 
   # Create pins
+  create_bd_pin -dir O -type clk axi_aclk
+  create_bd_pin -dir O -type rst axi_aresetn
+  create_bd_pin -dir I -type rst pcie_resetn
+  create_bd_pin -dir I -from 0 -to 0 usr_irq_req
+
+  # Create instance: system_ila_0, and set properties
+  set system_ila_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:system_ila:1.1 system_ila_0 ]
+  set_property -dict [ list \
+   CONFIG.C_BRAM_CNT {23.5} \
+   CONFIG.C_DATA_DEPTH {4096} \
+   CONFIG.C_MON_TYPE {INTERFACE} \
+   CONFIG.C_NUM_MONITOR_SLOTS {1} \
+   CONFIG.C_SLOT_0_APC_EN {0} \
+   CONFIG.C_SLOT_0_AXI_AR_SEL_DATA {1} \
+   CONFIG.C_SLOT_0_AXI_AR_SEL_TRIG {1} \
+   CONFIG.C_SLOT_0_AXI_AW_SEL_DATA {1} \
+   CONFIG.C_SLOT_0_AXI_AW_SEL_TRIG {1} \
+   CONFIG.C_SLOT_0_AXI_B_SEL_DATA {1} \
+   CONFIG.C_SLOT_0_AXI_B_SEL_TRIG {1} \
+   CONFIG.C_SLOT_0_AXI_R_SEL_DATA {1} \
+   CONFIG.C_SLOT_0_AXI_R_SEL_TRIG {1} \
+   CONFIG.C_SLOT_0_AXI_W_SEL_DATA {1} \
+   CONFIG.C_SLOT_0_AXI_W_SEL_TRIG {1} \
+   CONFIG.C_SLOT_0_INTF_TYPE {xilinx.com:interface:aximm_rtl:1.0} \
+ ] $system_ila_0
+
+  # Create instance: util_ds_buf_0, and set properties
+  set util_ds_buf_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:util_ds_buf:2.1 util_ds_buf_0 ]
+  set_property -dict [ list \
+   CONFIG.C_BUF_TYPE {IBUFDSGTE} \
+ ] $util_ds_buf_0
+
+  # Create instance: xdma_0, and set properties
+  set xdma_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xdma:4.1 xdma_0 ]
+  set_property -dict [ list \
+   CONFIG.PF0_DEVICE_ID_mqdma {9028} \
+   CONFIG.PF2_DEVICE_ID_mqdma {9028} \
+   CONFIG.PF3_DEVICE_ID_mqdma {9028} \
+   CONFIG.axi_data_width {256_bit} \
+   CONFIG.axilite_master_en {true} \
+   CONFIG.axilite_master_scale {Gigabytes} \
+   CONFIG.axilite_master_size {1} \
+   CONFIG.axisten_freq {125} \
+   CONFIG.cfg_mgmt_if {false} \
+   CONFIG.coreclk_freq {250} \
+   CONFIG.disable_gt_loc {false} \
+   CONFIG.en_ext_ch_gt_drp {false} \
+   CONFIG.en_gt_selection {true} \
+   CONFIG.enable_auto_rxeq {True} \
+   CONFIG.mode_selection {Basic} \
+   CONFIG.pciebar2axibar_axil_master {0x40000000} \
+   CONFIG.pf0_Use_Class_Code_Lookup_Assistant {true} \
+   CONFIG.pf0_base_class_menu {Memory_controller} \
+   CONFIG.pf0_class_code {058000} \
+   CONFIG.pf0_class_code_base {05} \
+   CONFIG.pf0_class_code_interface {00} \
+   CONFIG.pf0_class_code_sub {80} \
+   CONFIG.pf0_device_id {8028} \
+   CONFIG.pf0_interrupt_pin {NONE} \
+   CONFIG.pf0_msix_cap_pba_bir {BAR_1} \
+   CONFIG.pf0_msix_cap_table_bir {BAR_1} \
+   CONFIG.pf0_sub_class_interface_menu {Other_memory_controller} \
+   CONFIG.pl_link_cap_max_link_speed {5.0_GT/s} \
+   CONFIG.pl_link_cap_max_link_width {X8} \
+   CONFIG.plltype {QPLL1} \
+   CONFIG.xdma_rnum_chnl {4} \
+   CONFIG.xdma_wnum_chnl {4} \
+ ] $xdma_0
+
+  # Create interface connections
+  connect_bd_intf_net -intf_net Conn1 [get_bd_intf_pins pcie_sys_clk] [get_bd_intf_pins util_ds_buf_0/CLK_IN_D]
+  connect_bd_intf_net -intf_net Conn2 [get_bd_intf_pins M_AXI_LITE] [get_bd_intf_pins xdma_0/M_AXI_LITE]
+  connect_bd_intf_net -intf_net Conn3 [get_bd_intf_pins pcie_mgt] [get_bd_intf_pins xdma_0/pcie_mgt]
+  connect_bd_intf_net -intf_net Conn4 [get_bd_intf_pins M_AXI] [get_bd_intf_pins xdma_0/M_AXI]
+  connect_bd_intf_net -intf_net [get_bd_intf_nets Conn4] [get_bd_intf_pins M_AXI] [get_bd_intf_pins system_ila_0/SLOT_0_AXI]
+
+  # Create port connections
+  connect_bd_net -net pcie_resetn_1 [get_bd_pins pcie_resetn] [get_bd_pins xdma_0/sys_rst_n]
+  connect_bd_net -net usr_irq_req_1 [get_bd_pins usr_irq_req] [get_bd_pins xdma_0/usr_irq_req]
+  connect_bd_net -net util_ds_buf_0_IBUF_DS_ODIV2 [get_bd_pins util_ds_buf_0/IBUF_DS_ODIV2] [get_bd_pins xdma_0/sys_clk]
+  connect_bd_net -net util_ds_buf_0_IBUF_OUT [get_bd_pins util_ds_buf_0/IBUF_OUT] [get_bd_pins xdma_0/sys_clk_gt]
+  connect_bd_net -net xdma_0_axi_aclk [get_bd_pins axi_aclk] [get_bd_pins system_ila_0/clk] [get_bd_pins xdma_0/axi_aclk]
+  connect_bd_net -net xdma_0_axi_aresetn [get_bd_pins axi_aresetn] [get_bd_pins system_ila_0/resetn] [get_bd_pins xdma_0/axi_aresetn]
 
   # Restore current instance
   current_bd_instance $oldCurInst
@@ -1010,76 +1101,11 @@ proc create_root_design { parentCell } {
   # Create instance: processor_subsystem
   create_hier_cell_processor_subsystem [current_bd_instance .] processor_subsystem
 
-  # Create instance: system_ila_0, and set properties
-  set system_ila_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:system_ila:1.1 system_ila_0 ]
-  set_property -dict [ list \
-   CONFIG.C_BRAM_CNT {23.5} \
-   CONFIG.C_DATA_DEPTH {4096} \
-   CONFIG.C_MON_TYPE {INTERFACE} \
-   CONFIG.C_NUM_MONITOR_SLOTS {1} \
-   CONFIG.C_SLOT_0_APC_EN {0} \
-   CONFIG.C_SLOT_0_AXI_AR_SEL_DATA {1} \
-   CONFIG.C_SLOT_0_AXI_AR_SEL_TRIG {1} \
-   CONFIG.C_SLOT_0_AXI_AW_SEL_DATA {1} \
-   CONFIG.C_SLOT_0_AXI_AW_SEL_TRIG {1} \
-   CONFIG.C_SLOT_0_AXI_B_SEL_DATA {1} \
-   CONFIG.C_SLOT_0_AXI_B_SEL_TRIG {1} \
-   CONFIG.C_SLOT_0_AXI_R_SEL_DATA {1} \
-   CONFIG.C_SLOT_0_AXI_R_SEL_TRIG {1} \
-   CONFIG.C_SLOT_0_AXI_W_SEL_DATA {1} \
-   CONFIG.C_SLOT_0_AXI_W_SEL_TRIG {1} \
-   CONFIG.C_SLOT_0_INTF_TYPE {xilinx.com:interface:aximm_rtl:1.0} \
- ] $system_ila_0
-
-  # Create instance: util_ds_buf_0, and set properties
-  set util_ds_buf_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:util_ds_buf:2.1 util_ds_buf_0 ]
-  set_property -dict [ list \
-   CONFIG.C_BUF_TYPE {IBUFDSGTE} \
- ] $util_ds_buf_0
-
-  # Create instance: xdma_0, and set properties
-  set xdma_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xdma:4.1 xdma_0 ]
-  set_property -dict [ list \
-   CONFIG.PF0_DEVICE_ID_mqdma {9028} \
-   CONFIG.PF2_DEVICE_ID_mqdma {9028} \
-   CONFIG.PF3_DEVICE_ID_mqdma {9028} \
-   CONFIG.axi_data_width {256_bit} \
-   CONFIG.axilite_master_en {true} \
-   CONFIG.axilite_master_scale {Gigabytes} \
-   CONFIG.axilite_master_size {1} \
-   CONFIG.axisten_freq {125} \
-   CONFIG.cfg_mgmt_if {false} \
-   CONFIG.coreclk_freq {250} \
-   CONFIG.disable_gt_loc {false} \
-   CONFIG.en_ext_ch_gt_drp {false} \
-   CONFIG.en_gt_selection {true} \
-   CONFIG.enable_auto_rxeq {True} \
-   CONFIG.mode_selection {Basic} \
-   CONFIG.pciebar2axibar_axil_master {0x40000000} \
-   CONFIG.pf0_Use_Class_Code_Lookup_Assistant {true} \
-   CONFIG.pf0_base_class_menu {Memory_controller} \
-   CONFIG.pf0_class_code {058000} \
-   CONFIG.pf0_class_code_base {05} \
-   CONFIG.pf0_class_code_interface {00} \
-   CONFIG.pf0_class_code_sub {80} \
-   CONFIG.pf0_device_id {8028} \
-   CONFIG.pf0_interrupt_pin {NONE} \
-   CONFIG.pf0_msix_cap_pba_bir {BAR_1} \
-   CONFIG.pf0_msix_cap_table_bir {BAR_1} \
-   CONFIG.pf0_sub_class_interface_menu {Other_memory_controller} \
-   CONFIG.pl_link_cap_max_link_speed {5.0_GT/s} \
-   CONFIG.pl_link_cap_max_link_width {X8} \
-   CONFIG.plltype {QPLL1} \
-   CONFIG.xdma_rnum_chnl {4} \
-   CONFIG.xdma_wnum_chnl {4} \
- ] $xdma_0
-
   # Create interface connections
   connect_bd_intf_net -intf_net S00_AXI_1 [get_bd_intf_pins clock_and_memory_subsystem/S00_AXI] [get_bd_intf_pins processor_subsystem/M_AXI_DC]
   connect_bd_intf_net -intf_net S01_AXI_1 [get_bd_intf_pins clock_and_memory_subsystem/S01_AXI] [get_bd_intf_pins processor_subsystem/M_AXI_IC]
-  connect_bd_intf_net -intf_net S01_AXI_2 [get_bd_intf_pins processor_subsystem/S01_AXI] [get_bd_intf_pins xdma_0/M_AXI_LITE]
-  connect_bd_intf_net -intf_net S05_AXI_1 [get_bd_intf_pins clock_and_memory_subsystem/S05_AXI] [get_bd_intf_pins xdma_0/M_AXI]
-connect_bd_intf_net -intf_net [get_bd_intf_nets S05_AXI_1] [get_bd_intf_pins system_ila_0/SLOT_0_AXI] [get_bd_intf_pins xdma_0/M_AXI]
+  connect_bd_intf_net -intf_net S01_AXI_2 [get_bd_intf_pins pcie_hier_0/M_AXI_LITE] [get_bd_intf_pins processor_subsystem/S01_AXI]
+  connect_bd_intf_net -intf_net S05_AXI_1 [get_bd_intf_pins clock_and_memory_subsystem/S05_AXI] [get_bd_intf_pins pcie_hier_0/M_AXI]
   set_property HDL_ATTRIBUTE.DEBUG {true} [get_bd_intf_nets S05_AXI_1]
   connect_bd_intf_net -intf_net axi_dma_0_M_AXI_MM2S [get_bd_intf_pins clock_and_memory_subsystem/S02_AXI] [get_bd_intf_pins ethernet_subsystem/M_AXI_MM2S]
   connect_bd_intf_net -intf_net axi_dma_0_M_AXI_S2MM [get_bd_intf_pins clock_and_memory_subsystem/S03_AXI] [get_bd_intf_pins ethernet_subsystem/M_AXI_S2MM]
@@ -1087,7 +1113,8 @@ connect_bd_intf_net -intf_net [get_bd_intf_nets S05_AXI_1] [get_bd_intf_pins sys
   connect_bd_intf_net -intf_net axi_ethernet_0_mdio [get_bd_intf_ports mdio] [get_bd_intf_pins ethernet_subsystem/mdio]
   connect_bd_intf_net -intf_net axi_ethernet_0_rgmii [get_bd_intf_ports rgmii] [get_bd_intf_pins ethernet_subsystem/rgmii]
   connect_bd_intf_net -intf_net ddr4_0_C0_DDR4 [get_bd_intf_ports C0_DDR4] [get_bd_intf_pins clock_and_memory_subsystem/C0_DDR4]
-  connect_bd_intf_net -intf_net pcie_sys_clk_1 [get_bd_intf_ports pcie_sys_clk] [get_bd_intf_pins util_ds_buf_0/CLK_IN_D]
+  connect_bd_intf_net -intf_net pcie_hier_0_pcie_mgt [get_bd_intf_ports pcie_mgt] [get_bd_intf_pins pcie_hier_0/pcie_mgt]
+  connect_bd_intf_net -intf_net pcie_sys_clk_1 [get_bd_intf_ports pcie_sys_clk] [get_bd_intf_pins pcie_hier_0/pcie_sys_clk]
   connect_bd_intf_net -intf_net processor_subsystem_M04_AXI [get_bd_intf_pins ethernet_subsystem/eth_s_axi_tmr] [get_bd_intf_pins processor_subsystem/eth_m_axi_tmr]
   connect_bd_intf_net -intf_net processor_subsystem_M09_AXI [get_bd_intf_pins clock_and_memory_subsystem/S_AXI_LITE] [get_bd_intf_pins processor_subsystem/M09_AXI]
   connect_bd_intf_net -intf_net processor_subsystem_M22_AXI1 [get_bd_intf_pins ethernet_subsystem/eth_s_axi_dma] [get_bd_intf_pins processor_subsystem/eth_m_axi_dma]
@@ -1097,10 +1124,9 @@ connect_bd_intf_net -intf_net [get_bd_intf_nets S05_AXI_1] [get_bd_intf_pins sys
   connect_bd_intf_net -intf_net processor_subsystem_i2c_0 [get_bd_intf_ports i2c_0] [get_bd_intf_pins processor_subsystem/i2c_0]
   connect_bd_intf_net -intf_net sys_1 [get_bd_intf_ports sys] [get_bd_intf_pins clock_and_memory_subsystem/sys_clk]
   connect_bd_intf_net -intf_net v_vid_in_axi4s_0_video_out [get_bd_intf_pins clock_and_memory_subsystem/S_AXIS_S2MM] [get_bd_intf_pins oldi_in_x1/video_out]
-  connect_bd_intf_net -intf_net xdma_0_pcie_mgt [get_bd_intf_ports pcie_mgt] [get_bd_intf_pins xdma_0/pcie_mgt]
 
   # Create port connections
-  connect_bd_net -net GND_dout [get_bd_pins GND/dout] [get_bd_pins clock_and_memory_subsystem/sys_rst] [get_bd_pins xdma_0/usr_irq_req]
+  connect_bd_net -net GND_dout [get_bd_pins GND/dout] [get_bd_pins clock_and_memory_subsystem/sys_rst] [get_bd_pins pcie_hier_0/usr_irq_req]
   connect_bd_net -net HW_VER_dout [get_bd_pins HW_VER/dout] [get_bd_pins processor_subsystem/VERSION]
   connect_bd_net -net In4_1 [get_bd_pins ethernet_subsystem/tmr_irq] [get_bd_pins processor_subsystem/ethernet_tmr_irq]
   connect_bd_net -net LMB_Rst_1 [get_bd_pins clock_and_memory_subsystem/LMB_reset] [get_bd_pins processor_subsystem/LMB_reset]
@@ -1123,31 +1149,29 @@ connect_bd_intf_net -intf_net [get_bd_intf_nets S05_AXI_1] [get_bd_intf_pins sys
   connect_bd_net -net datain2_n_0_1 [get_bd_ports ch0_datain1_n] [get_bd_pins oldi_in_x1/ch0_datain1_n]
   connect_bd_net -net datain2_p_0_1 [get_bd_ports ch0_datain1_p] [get_bd_pins oldi_in_x1/ch0_datain1_p]
   connect_bd_net -net ddr4_0_addn_ui_clkout1 [get_bd_pins clock_and_memory_subsystem/aclk] [get_bd_pins ethernet_subsystem/aclk] [get_bd_pins ethernet_subsystem/clk_wiz_clk_in] [get_bd_pins processor_subsystem/aclk]
-  connect_bd_net -net pcie_resetn_1 [get_bd_ports pcie_resetn] [get_bd_pins xdma_0/sys_rst_n]
+  connect_bd_net -net pcie_resetn_1 [get_bd_ports pcie_resetn] [get_bd_pins pcie_hier_0/pcie_resetn]
   connect_bd_net -net processor_subsystem_mb_debug_sys_rst [get_bd_pins clock_and_memory_subsystem/mb_debug_sys_rst] [get_bd_pins processor_subsystem/mb_debug_sys_rst]
   connect_bd_net -net rst_system_peripheral_aresetn [get_bd_pins clock_and_memory_subsystem/aresetn] [get_bd_pins ethernet_subsystem/aresetn] [get_bd_pins processor_subsystem/aresetn]
-  connect_bd_net -net util_ds_buf_0_IBUF_DS_ODIV2 [get_bd_pins util_ds_buf_0/IBUF_DS_ODIV2] [get_bd_pins xdma_0/sys_clk]
-  connect_bd_net -net util_ds_buf_0_IBUF_OUT [get_bd_pins util_ds_buf_0/IBUF_OUT] [get_bd_pins xdma_0/sys_clk_gt]
-  connect_bd_net -net xdma_0_axi_aclk [get_bd_pins clock_and_memory_subsystem/S05_ACLK] [get_bd_pins processor_subsystem/S01_ACLK] [get_bd_pins system_ila_0/clk] [get_bd_pins xdma_0/axi_aclk]
-  connect_bd_net -net xdma_0_axi_aresetn [get_bd_pins clock_and_memory_subsystem/S05_ARESETN] [get_bd_pins processor_subsystem/S01_ARESETN] [get_bd_pins system_ila_0/resetn] [get_bd_pins xdma_0/axi_aresetn]
+  connect_bd_net -net xdma_0_axi_aclk [get_bd_pins clock_and_memory_subsystem/S05_ACLK] [get_bd_pins pcie_hier_0/axi_aclk] [get_bd_pins processor_subsystem/S01_ACLK]
+  connect_bd_net -net xdma_0_axi_aresetn [get_bd_pins clock_and_memory_subsystem/S05_ARESETN] [get_bd_pins pcie_hier_0/axi_aresetn] [get_bd_pins processor_subsystem/S01_ARESETN]
 
   # Create address segments
-  assign_bd_address -offset 0x44A10000 -range 0x00010000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI_LITE] [get_bd_addr_segs processor_subsystem/AXI_LITE_REG_0/S00_AXI/S00_AXI_reg] -force
-  assign_bd_address -offset 0x41E00000 -range 0x00010000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI_LITE] [get_bd_addr_segs ethernet_subsystem/axi_dma_0/S_AXI_LITE/Reg] -force
-  assign_bd_address -offset 0x40C00000 -range 0x00040000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI_LITE] [get_bd_addr_segs ethernet_subsystem/axi_ethernet_0/s_axi/Reg0] -force
-  assign_bd_address -offset 0x40800000 -range 0x00010000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI_LITE] [get_bd_addr_segs processor_subsystem/axi_iic_0/S_AXI/Reg] -force
-  assign_bd_address -offset 0x44A20000 -range 0x00010000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI_LITE] [get_bd_addr_segs processor_subsystem/axi_quad_spi_0/AXI_LITE/Reg] -force
-  assign_bd_address -offset 0x41C00000 -range 0x00010000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI_LITE] [get_bd_addr_segs ethernet_subsystem/axi_timer_0/S_AXI/Reg] -force
-  assign_bd_address -offset 0x40600000 -range 0x00010000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI_LITE] [get_bd_addr_segs processor_subsystem/axi_uartlite_0/S_AXI/Reg] -force
-  assign_bd_address -offset 0x40610000 -range 0x00010000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI_LITE] [get_bd_addr_segs processor_subsystem/axi_uartlite_1/S_AXI/Reg] -force
-  assign_bd_address -offset 0x44A00000 -range 0x00010000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI_LITE] [get_bd_addr_segs clock_and_memory_subsystem/axi_vdma_0/S_AXI_LITE/Reg] -force
-  assign_bd_address -offset 0x80000000 -range 0x80000000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI] [get_bd_addr_segs clock_and_memory_subsystem/ddr4_0/C0_DDR4_MEMORY_MAP/C0_DDR4_ADDRESS_BLOCK] -force
-  assign_bd_address -offset 0x41200000 -range 0x00010000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI_LITE] [get_bd_addr_segs processor_subsystem/microblaze_0_axi_intc/S_AXI/Reg] -force
   assign_bd_address -offset 0x80000000 -range 0x80000000 -target_address_space [get_bd_addr_spaces clock_and_memory_subsystem/axi_vdma_0/Data_S2MM] [get_bd_addr_segs clock_and_memory_subsystem/ddr4_0/C0_DDR4_MEMORY_MAP/C0_DDR4_ADDRESS_BLOCK] -force
   assign_bd_address -offset 0x80000000 -range 0x80000000 -target_address_space [get_bd_addr_spaces ethernet_subsystem/axi_dma_0/Data_SG] [get_bd_addr_segs clock_and_memory_subsystem/ddr4_0/C0_DDR4_MEMORY_MAP/C0_DDR4_ADDRESS_BLOCK] -force
   assign_bd_address -offset 0x80000000 -range 0x80000000 -target_address_space [get_bd_addr_spaces ethernet_subsystem/axi_dma_0/Data_MM2S] [get_bd_addr_segs clock_and_memory_subsystem/ddr4_0/C0_DDR4_MEMORY_MAP/C0_DDR4_ADDRESS_BLOCK] -force
   assign_bd_address -offset 0x80000000 -range 0x80000000 -target_address_space [get_bd_addr_spaces ethernet_subsystem/axi_dma_0/Data_S2MM] [get_bd_addr_segs clock_and_memory_subsystem/ddr4_0/C0_DDR4_MEMORY_MAP/C0_DDR4_ADDRESS_BLOCK] -force
-  assign_bd_address -offset 0x44A10000 -range 0x00010000 -target_address_space [get_bd_addr_spaces processor_subsystem/microblaze_0/Data] [get_bd_addr_segs processor_subsystem/AXI_LITE_REG_0/S00_AXI/S00_AXI_reg] -force
+  assign_bd_address -offset 0x40000000 -range 0x00010000 -target_address_space [get_bd_addr_spaces pcie_hier_0/xdma_0/M_AXI_LITE] [get_bd_addr_segs processor_subsystem/AXI_LITE_REG_0/S00_AXI/S00_AXI_reg] -force
+  assign_bd_address -offset 0x41E00000 -range 0x00010000 -target_address_space [get_bd_addr_spaces pcie_hier_0/xdma_0/M_AXI_LITE] [get_bd_addr_segs ethernet_subsystem/axi_dma_0/S_AXI_LITE/Reg] -force
+  assign_bd_address -offset 0x40C00000 -range 0x00040000 -target_address_space [get_bd_addr_spaces pcie_hier_0/xdma_0/M_AXI_LITE] [get_bd_addr_segs ethernet_subsystem/axi_ethernet_0/s_axi/Reg0] -force
+  assign_bd_address -offset 0x40800000 -range 0x00010000 -target_address_space [get_bd_addr_spaces pcie_hier_0/xdma_0/M_AXI_LITE] [get_bd_addr_segs processor_subsystem/axi_iic_0/S_AXI/Reg] -force
+  assign_bd_address -offset 0x44A20000 -range 0x00010000 -target_address_space [get_bd_addr_spaces pcie_hier_0/xdma_0/M_AXI_LITE] [get_bd_addr_segs processor_subsystem/axi_quad_spi_0/AXI_LITE/Reg] -force
+  assign_bd_address -offset 0x41C00000 -range 0x00010000 -target_address_space [get_bd_addr_spaces pcie_hier_0/xdma_0/M_AXI_LITE] [get_bd_addr_segs ethernet_subsystem/axi_timer_0/S_AXI/Reg] -force
+  assign_bd_address -offset 0x40600000 -range 0x00010000 -target_address_space [get_bd_addr_spaces pcie_hier_0/xdma_0/M_AXI_LITE] [get_bd_addr_segs processor_subsystem/axi_uartlite_0/S_AXI/Reg] -force
+  assign_bd_address -offset 0x40610000 -range 0x00010000 -target_address_space [get_bd_addr_spaces pcie_hier_0/xdma_0/M_AXI_LITE] [get_bd_addr_segs processor_subsystem/axi_uartlite_1/S_AXI/Reg] -force
+  assign_bd_address -offset 0x44A00000 -range 0x00010000 -target_address_space [get_bd_addr_spaces pcie_hier_0/xdma_0/M_AXI_LITE] [get_bd_addr_segs clock_and_memory_subsystem/axi_vdma_0/S_AXI_LITE/Reg] -force
+  assign_bd_address -offset 0x80000000 -range 0x80000000 -target_address_space [get_bd_addr_spaces pcie_hier_0/xdma_0/M_AXI] [get_bd_addr_segs clock_and_memory_subsystem/ddr4_0/C0_DDR4_MEMORY_MAP/C0_DDR4_ADDRESS_BLOCK] -force
+  assign_bd_address -offset 0x41200000 -range 0x00010000 -target_address_space [get_bd_addr_spaces pcie_hier_0/xdma_0/M_AXI_LITE] [get_bd_addr_segs processor_subsystem/microblaze_0_axi_intc/S_AXI/Reg] -force
+  assign_bd_address -offset 0x40000000 -range 0x00010000 -target_address_space [get_bd_addr_spaces processor_subsystem/microblaze_0/Data] [get_bd_addr_segs processor_subsystem/AXI_LITE_REG_0/S00_AXI/S00_AXI_reg] -force
   assign_bd_address -offset 0x41E00000 -range 0x00010000 -target_address_space [get_bd_addr_spaces processor_subsystem/microblaze_0/Data] [get_bd_addr_segs ethernet_subsystem/axi_dma_0/S_AXI_LITE/Reg] -force
   assign_bd_address -offset 0x40C00000 -range 0x00040000 -target_address_space [get_bd_addr_spaces processor_subsystem/microblaze_0/Data] [get_bd_addr_segs ethernet_subsystem/axi_ethernet_0/s_axi/Reg0] -force
   assign_bd_address -offset 0x40800000 -range 0x00010000 -target_address_space [get_bd_addr_spaces processor_subsystem/microblaze_0/Data] [get_bd_addr_segs processor_subsystem/axi_iic_0/S_AXI/Reg] -force
