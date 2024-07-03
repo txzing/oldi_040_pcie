@@ -3,7 +3,6 @@ proc init_gui { IPINST } {
   ipgui::add_param $IPINST -name "Component_Name"
   #Adding Page
   set Page_0 [ipgui::add_page $IPINST -name "Page 0"]
-  ipgui::add_param $IPINST -name "SIM_DEVICE" -parent ${Page_0} -widget comboBox
   ipgui::add_param $IPINST -name "LINES" -parent ${Page_0}
   ipgui::add_param $IPINST -name "CHANNELS" -parent ${Page_0}
   ipgui::add_param $IPINST -name "CLKIN_PERIOD" -parent ${Page_0}
@@ -78,15 +77,6 @@ proc validate_PARAM_VALUE.REF_FREQ { PARAM_VALUE.REF_FREQ } {
 	return true
 }
 
-proc update_PARAM_VALUE.SIM_DEVICE { PARAM_VALUE.SIM_DEVICE } {
-	# Procedure called to update SIM_DEVICE when any of the dependent parameters in the arguments change
-}
-
-proc validate_PARAM_VALUE.SIM_DEVICE { PARAM_VALUE.SIM_DEVICE } {
-	# Procedure called to validate SIM_DEVICE
-	return true
-}
-
 proc update_PARAM_VALUE.USE_PLL { PARAM_VALUE.USE_PLL } {
 	# Procedure called to update USE_PLL when any of the dependent parameters in the arguments change
 }
@@ -137,8 +127,29 @@ proc update_MODELPARAM_VALUE.LVDS_FORMAT { MODELPARAM_VALUE.LVDS_FORMAT PARAM_VA
 	set_property value [get_property value ${PARAM_VALUE.LVDS_FORMAT}] ${MODELPARAM_VALUE.LVDS_FORMAT}
 }
 
-proc update_MODELPARAM_VALUE.SIM_DEVICE { MODELPARAM_VALUE.SIM_DEVICE PARAM_VALUE.SIM_DEVICE } {
+#proc update_MODELPARAM_VALUE.SIM_DEVICE { IPINST MODELPARAM_VALUE.SIM_DEVICE PROJECT_PARAM.ARCHITECTURE } {
+proc update_MODELPARAM_VALUE.SIM_DEVICE { IPINST MODELPARAM_VALUE.SIM_DEVICE PROJECT_PARAM.ARCHITECTURE PROJECT_PARAM.PART } {
 	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
-	set_property value [get_property value ${PARAM_VALUE.SIM_DEVICE}] ${MODELPARAM_VALUE.SIM_DEVICE}
+	# WARNING: There is no corresponding user parameter named "SIM_DEVICE". Setting updated value from the model parameter.
+    # set_property value ULTRASCALE_PLUS ${MODELPARAM_VALUE.SIM_DEVICE}
+    
+    ## ref to oddr_v1_0
+    puts "PROJECT_PARAM.PART=${PROJECT_PARAM.PART}"
+    puts "PROJECT_PARAM.ARCHITECTURE=${PROJECT_PARAM.ARCHITECTURE}"
+    #if {(${PROJECT_PARAM.ARCHITECTURE} == "virtexu") || (${PROJECT_PARAM.ARCHITECTURE} == "kintexu")} {
+        #puts "!!!!! setting SIM_DEVICE"
+        #set SIM_DEVICE ULTRASCALE
+        set SIM_DEVICE [get_device_data D_SIM ISERDESE3]
+        #set SIM_DEVICE [get_device_data D_SIM ODDRE1]
+        puts "!!!!! SIM_DEVICE=${SIM_DEVICE}"
+        set_property value $SIM_DEVICE ${MODELPARAM_VALUE.SIM_DEVICE}
+    #} else {
+    #    puts "!!!!! NO SIM_DEVICE"
+    #    #set SIM_DEVICE ULTRASCALE_PLUS
+    #    puts [get_device_data D_SIM ISERDESE3]
+    #    set SIM_DEVICE [get_device_data D_SIM ISERDESE3]
+    #    puts "!!!!!SIM_DEVICE=${SIM_DEVICE}"
+    #    set_property value $SIM_DEVICE ${MODELPARAM_VALUE.SIM_DEVICE}
+    #}
 }
 

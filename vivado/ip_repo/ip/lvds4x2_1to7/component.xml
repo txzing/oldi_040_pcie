@@ -64,7 +64,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>b31e943e</spirit:value>
+            <spirit:value>0334be84</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -78,7 +78,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>f4a41a86</spirit:value>
+            <spirit:value>761963f7</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -417,11 +417,6 @@
   </spirit:model>
   <spirit:choices>
     <spirit:choice>
-      <spirit:name>choice_list_09dff5d0</spirit:name>
-      <spirit:enumeration>ULTRASCALE</spirit:enumeration>
-      <spirit:enumeration>ULTRASCALE_PLUS</spirit:enumeration>
-    </spirit:choice>
-    <spirit:choice>
       <spirit:name>choice_list_71ae5387</spirit:name>
       <spirit:enumeration>VESA</spirit:enumeration>
       <spirit:enumeration>JEIDA</spirit:enumeration>
@@ -559,11 +554,6 @@
       <spirit:displayName>Lvds Format</spirit:displayName>
       <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.LVDS_FORMAT" spirit:choiceRef="choice_list_71ae5387">VESA</spirit:value>
     </spirit:parameter>
-    <spirit:parameter>
-      <spirit:name>SIM_DEVICE</spirit:name>
-      <spirit:displayName>Sim Device</spirit:displayName>
-      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.SIM_DEVICE" spirit:choiceRef="choice_list_09dff5d0">ULTRASCALE_PLUS</spirit:value>
-    </spirit:parameter>
   </spirit:parameters>
   <spirit:vendorExtensions>
     <xilinx:coreExtensions>
@@ -574,28 +564,36 @@
         <xilinx:family xilinx:lifeCycle="Production">virtexuplus58g</xilinx:family>
         <xilinx:family xilinx:lifeCycle="Production">kintexuplus</xilinx:family>
         <xilinx:family xilinx:lifeCycle="Production">kintexu</xilinx:family>
+	<xilinx:family xilinx:lifeCycle="Production">virtexu</xilinx:family>
       </xilinx:supportedFamilies>
       <xilinx:taxonomies>
         <xilinx:taxonomy>/UserIP</xilinx:taxonomy>
       </xilinx:taxonomies>
       <xilinx:displayName>lvds4x2_1to7_v1_0</xilinx:displayName>
       <xilinx:definitionSource>package_project</xilinx:definitionSource>
-      <xilinx:coreRevision>1</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2024-05-22T04:13:31Z</xilinx:coreCreationDateTime>
+      <xilinx:coreRevision>2</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2024-05-31T10:13:20Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@7b8df113_ARCHIVE_LOCATION">/opt/workdir/figkey/projects/ZONE/ZXD1_CAT_EOL/95548466/vivado/ip_repo/ip/lvds4x2_1to7</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@2f851029_ARCHIVE_LOCATION">/opt/workdir/figkey/projects/ZONE/ZXD1_CAT_EOL/95548466/vivado/ip_repo/ip/lvds4x2_1to7</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@5fcc9965_ARCHIVE_LOCATION">/opt/workdir/figkey/projects/ZONE/ZXD1_CAT_EOL/95548466/vivado/ip_repo/ip/lvds4x2_1to7</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@71b19dd0_ARCHIVE_LOCATION">/opt/workdir/figkey/projects/ZONE/ZXD1_CAT_EOL/95548466/vivado/ip_repo/ip/lvds4x2_1to7</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@31bd20a9_ARCHIVE_LOCATION">/opt/workdir/figkey/projects/ZONE/ZXD1_CAT_EOL/95548466/vivado/ip_repo/ip/lvds4x2_1to7</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@41910f8f_ARCHIVE_LOCATION">/opt/workdir/figkey/projects/ZONE/ZXD1_CAT_EOL/95548466/vivado/ip_repo/ip/lvds4x2_1to7</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@568abe25_ARCHIVE_LOCATION">/opt/workdir/figkey/projects/ZONE/ZXD1_CAT_EOL/95548466/vivado/ip_repo/ip/lvds4x2_1to7</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3bfb6b40_ARCHIVE_LOCATION">/opt/workdir/figkey/projects/ZONE/ZXD1_CAT_EOL/95548466/vivado/ip_repo/ip/lvds4x2_1to7</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@321be22a_ARCHIVE_LOCATION">/opt/workdir/figkey/projects/ZONE/ZXD1_CAT_EOL/95548466/vivado/ip_repo/ip/lvds4x2_1to7</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5ba5aae6_ARCHIVE_LOCATION">/opt/workdir/figkey/projects/ZONE/ZXD1_CAT_EOL/95548466/vivado/ip_repo/ip/lvds4x2_1to7</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@39b95d45_ARCHIVE_LOCATION">/opt/workdir/figkey/projects/ZONE/ZXD1_CAT_EOL/95548466/vivado/ip_repo/ip/lvds4x2_1to7</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
-      <xilinx:xilinxVersion>2020.2</xilinx:xilinxVersion>
+      <xilinx:xilinxVersion>2020.1</xilinx:xilinxVersion>
       <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="615df000"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="348b2ee2"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="a4244e6f"/>
       <xilinx:checksum xilinx:scope="ports" xilinx:value="fe6ea1a9"/>
       <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="cc846dd8"/>
-      <xilinx:checksum xilinx:scope="parameters" xilinx:value="1291cccc"/>
+      <xilinx:checksum xilinx:scope="parameters" xilinx:value="6c63011f"/>
     </xilinx:packagingInfo>
   </spirit:vendorExtensions>
 </spirit:component>

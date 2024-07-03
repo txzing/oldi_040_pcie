@@ -653,7 +653,6 @@ proc create_hier_cell_oldi_in { parentCell nameHier } {
   set lvds4x2_1to7_0 [ create_bd_cell -type ip -vlnv user.org:user:lvds4x2_1to7:1.0 lvds4x2_1to7_0 ]
   set_property -dict [ list \
    CONFIG.CLKIN_PERIOD {20} \
-   CONFIG.SIM_DEVICE {ULTRASCALE} \
  ] $lvds4x2_1to7_0
 
   # Create instance: v_vid_in_axi4s_0, and set properties
