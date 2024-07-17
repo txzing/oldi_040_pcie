@@ -1,6 +1,11 @@
 #ifndef __CONFIG_H__
 #define __CONFIG_H__
 
+
+
+#define R1080P60 //#define TEST
+//#define R4K30W //#define R4K30
+
 /*
  * for rs485 tcl settings(mb/zynq/znyqmp)
 bsp config stdin axi_uartlite_0
@@ -26,14 +31,14 @@ bsp regenerate
 /*
  * software version by compile time
  */
-//#define SW_VER_BY_COMPILE_TIME
+#define SW_VER_BY_COMPILE_TIME
 
 
 /*
 ps i2c dosen't support streching, use MIO/XGPIO or XIIC
  */
 //#define	SER_CFG
-//#define	DES_CFG
+#define	DES_CFG
 //#define	SERDES_3G
 
 /*
@@ -69,10 +74,11 @@ bsp config n_tx_descriptors 512
  */
 
 // if you want to use follow liwp related module at the same time, keep a single `server_netif` definition
-#define UDP_COMMAND_SRV
-#define TCP_COMMAND_SRV
-#define UDP_UPDATE
-#define TCP_UPDATE
+//#define UDP_COMMAND_SRV
+//#define TCP_COMMAND_SRV
+//#define UDP_UPDATE
+//#define TCP_UPDATE
+
 /* TCP_UPDATE need bigger tcp_snd_buf than default
 domain active
 bsp setlib -name lwip211
@@ -86,8 +92,8 @@ bsp config tcp_snd_buf 65536
 bsp config tcp_wnd 8192
 */
 
-#define USING_EEPROM
+//#define USING_EEPROM
 
-#define MODBUS_RTU_SLAVE
+//#define MODBUS_RTU_SLAVE
 
 #endif // __CONFIG_H__

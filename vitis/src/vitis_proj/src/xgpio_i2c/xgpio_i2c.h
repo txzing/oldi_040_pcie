@@ -36,7 +36,7 @@
 #if defined(XPAR_XGPIO_I2C_0_AXI_GPIO_0_DEVICE_ID)
 extern XGpio XGpioInstI2c;
 
-#define XIO_I2C_NUM 	(4U)	// 1~16
+#define XIO_I2C_NUM 	(9U)	// 1~16
 
 #define INPUT 1
 #define OUTPUT 0
@@ -68,7 +68,7 @@ typedef enum xgpio_i2c_no
 	I2C_NO_7,
 #endif
 #if (XIO_I2C_NUM >= 9U)
-	I2C_NO_8 = 0,
+	I2C_NO_8 ,
 #endif
 #if (XIO_I2C_NUM >= 10U)
 	I2C_NO_9,
@@ -197,16 +197,17 @@ int xgpio_i2c_reg8_read(i2c_no i2c, char IIC_ADDR, char Addr, u8 * ret, stretch_
 int xgpio_i2c_reg16_write(i2c_no i2c, char IIC_ADDR, unsigned short Addr, char Data, stretch_mode st_mode);
 int xgpio_i2c_reg16_read(i2c_no i2c, char IIC_ADDR, unsigned short Addr, u8 * ret, stretch_mode st_mode);
 
+int xgpio_i2c_reg8_continuous_write(i2c_no i2c, u8 IIC_ADDR, u8 Addr, u8 *Data,u16 len, stretch_mode st_mode);
+int xgpio_i2c_reg8_continuous_read(i2c_no i2c, u8 IIC_ADDR, u8 Addr, u8 * ret, u16 len, stretch_mode st_mode);
+int xgpio_i2c_reg16_continuous_write(i2c_no i2c, u8 IIC_ADDR, u16 Addr, u8 *Data,u16 len, stretch_mode st_mode);
+int xgpio_i2c_reg16_continuous_read(i2c_no i2c, u8 IIC_ADDR, u16 Addr, u8 * ret,u16 len, stretch_mode st_mode);
+
+
 //int xgpio_i2c_32b32_write(i2c_no i2c, char IIC_ADDR, unsigned int Addr, unsigned int Data, stretch_mode st_mode);
 //int xgpio_i2c_32b32_read(i2c_no i2c, char IIC_ADDR, unsigned int Addr, unsigned int * ret, stretch_mode st_mode);
 
-
 #endif // XPAR_XGPIO_I2C_0_AXI_GPIO_0_DEVICE_ID
 
-
-extern XGpio XGpioInst;
-
-int xgpio_setup(XGpio *InstancePtr, u16 DeviceId, u32 DirectionMask1, u32 DirectionMask2);
 
 #endif // XPAR_XGPIO_NUM_INSTANCES
 

@@ -3,20 +3,13 @@
 #if defined (XPAR_XEMACPS_NUM_INSTANCES) || defined (XPAR_XAXIETHERNET_NUM_INSTANCES)
 #if defined (UDP_UPDATE) || defined (TCP_UPDATE) || defined (TCP_COMMAND_SRV) || defined (UDP_COMMAND_SRV)
 
-//#if defined (UDP_UPDATE) || defined (TCP_UPDATE)
-//u8 rxbuffer[MAX_FLASH_LEN];
-//u32 total_bytes = 0;
-//int start_update_flag = 0 ;
-//#endif // #if defined (UDP_UPDATE) || defined (TCP_UPDATE)
+#if defined (UDP_UPDATE) || defined (TCP_UPDATE)
+u8 rxbuffer[MAX_FLASH_LEN];
+//void *rxbuffer;
 
-//#if defined (TCP_COMMAND_SRV) || defined (UDP_COMMAND_SRV)
-//uint8_t receivebuf[1500] = {0};
-//uint8_t send_buf[1500] = {0};
-//int receivelen = 0;
-//int sendlen = 0;
-//u8 cerrent_ch;
-//u8 reset_pl;
-//#endif // if defined (TCP_COMMAND_SRV) || defined (UDP_COMMAND_SRV)
+u32 total_bytes = 0;
+int start_update_flag = 0 ;
+#endif // #if defined (UDP_UPDATE) || defined (TCP_UPDATE)
 
 
 /* missing declaration in lwIP */
@@ -113,8 +106,8 @@ void start_applications(void)
         bsp_printf(TXT_RED "In %s: QSPI init failed...\r\n" TXT_RST, __func__);
         // return XST_FAILURE;
     }
-//    bsp_printf("Successfully init QSPI\r\n");
-
+    bsp_printf("Successfully init QSPI\r\n");
+//    rxbuffer = mem_calloc(MAX_FLASH_LEN, sizeof(u8));
 #endif // #if defined (UDP_UPDATE) || defined (TCP_UPDATE)
 
 #if defined (UDP_UPDATE)
@@ -160,7 +153,9 @@ void transfer_data(struct netif *netif)
 
 int lwip_common_init(struct netif *netif)
 {
-//	 int Status;
+
+    bsp_printf("\r\n\r\n***************************\n\r");
+    bsp_printf("lwip_common_init\r\n");
 
 #if LWIP_IPV6==0
 	 ip_addr_t ipaddr, netmask, gw;
@@ -170,22 +165,6 @@ int lwip_common_init(struct netif *netif)
 	unsigned char mac_ethernet_address[] = { 0x10, 0x0a, 0x35, 0x00, 0x01, 0x02 };
 
 	netif = &server_netif;
-
-//#if defined (__arm__) && !defined (ARMR5)
-//#if XPAR_GIGE_PCS_PMA_SGMII_CORE_PRESENT == 1 || XPAR_GIGE_PCS_PMA_1000BASEX_CORE_PRESENT == 1
-//	ProgramSi5324();
-//	ProgramSfpPhy();
-//#endif
-//#endif
-//
-//		/* Define this board specific macro in order perform PHY reset on ZCU102 */
-//#ifdef XPS_BOARD_ZCU102
-//	if(IicPhyReset()) {
-//		bsp_printf("Error performing PHY reset \n\r");
-//		return -1;
-//	}
-//#endif
-
 
 #if LWIP_IPV6==0
 #if LWIP_DHCP==1

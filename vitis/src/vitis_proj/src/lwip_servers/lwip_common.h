@@ -40,16 +40,21 @@ extern volatile int TcpSlowTmrFlag;
 #endif // XPAR_XAXIETHERNET_NUM_INSTANCES
 
 //#define MAX_FLASH_LEN   32*1024*1024
+#if defined (UDP_UPDATE) || defined (TCP_UPDATE)
+extern u8 rxbuffer[MAX_FLASH_LEN];
+//void * rxbuffer;
+extern u32 total_bytes;
+extern int start_update_flag;
+#endif // #if defined (UDP_UPDATE) || defined (TCP_UPDATE)
 
-
-//#if defined (TCP_COMMAND_SRV) || defined (UDP_COMMAND_SRV)
-//extern uint8_t receivebuf[1500] = {0};
-//extern uint8_t send_buf[1500] = {0};
-//extern int receivelen = 0;
-//extern int sendlen = 0;
-//extern u8 cerrent_ch;
-//extern u8 reset_pl;
-//#endif // if defined (TCP_COMMAND_SRV) || defined (UDP_COMMAND_SRV)
+#if defined (TCP_COMMAND_SRV) || defined (UDP_COMMAND_SRV)
+extern uint8_t receivebuf[1500] = {0};
+extern uint8_t send_buf[1500] = {0};
+extern int receivelen = 0;
+extern int sendlen = 0;
+extern u8 cerrent_ch;
+extern u8 reset_pl;
+#endif // if defined (TCP_COMMAND_SRV) || defined (UDP_COMMAND_SRV)
 
 extern struct netif server_netif;
 

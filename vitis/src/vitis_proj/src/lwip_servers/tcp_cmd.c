@@ -112,7 +112,7 @@ static err_t tcp_cmd_recv_callback(void *arg, struct tcp_pcb *tpcb, struct pbuf 
     	sendlen1=receivelen1;
     	//memcpy(send_buf,&sendlen,2);
     	memcpy(send_buf1+9,&msg_value,4);
-    	send_buf1[sendlen1-1] = checksum(send_buf1,sendlen1-1); // �����checksum���ȫ��
+    	send_buf1[sendlen1-1] = checksum(send_buf1,sendlen1-1); // 计算除checksum外的全部
     	memcpy(send_buf1,&sendlen1,2);
     }
     if(msg_cmd==0x11)	// write mem addr
@@ -128,7 +128,7 @@ static err_t tcp_cmd_recv_callback(void *arg, struct tcp_pcb *tpcb, struct pbuf 
 		sendlen1=receivelen1;
 		//memcpy(send_buf,&sendlen,2);
 		memcpy(send_buf1+9,&msg_value,4);
-		send_buf1[sendlen1-1] = checksum(send_buf1,sendlen1-1); // �����checksum���ȫ��
+		send_buf1[sendlen1-1] = checksum(send_buf1,sendlen1-1); // 计算除checksum外的全部
 		memcpy(send_buf1,&sendlen1,2);
 	}
     if(msg_cmd==0x12)	// read mem bulk
@@ -139,7 +139,7 @@ static err_t tcp_cmd_recv_callback(void *arg, struct tcp_pcb *tpcb, struct pbuf 
 		memcpy(send_buf1+receivelen1-1,(void*)msg_addr,mem_len*4);
 		sendlen1=receivelen1+mem_len*4;
 		memcpy(send_buf1,&sendlen1,2);
-		send_buf1[sendlen1-1] = checksum(send_buf1,sendlen1-1); // �����checksum���ȫ��
+		send_buf1[sendlen1-1] = checksum(send_buf1,sendlen1-1); // 计算除checksum外的全部
 	}
     if(msg_cmd==0x13)	// write mem bulk
 	{
@@ -149,7 +149,7 @@ static err_t tcp_cmd_recv_callback(void *arg, struct tcp_pcb *tpcb, struct pbuf 
 		sendlen1=receivelen1-mem_len*4;
 		memcpy(send_buf1,receivebuf1,sendlen1);
 //		memcpy(send_buf,&sendlen,2);
-		send_buf1[sendlen1-1] = checksum(send_buf1,sendlen1-1); // �����checksum���ȫ��
+		send_buf1[sendlen1-1] = checksum(send_buf1,sendlen1-1); // 计算除checksum外的全部
 		memcpy(send_buf1,&sendlen1,2);
 	}
     if(msg_cmd == 0x20)
@@ -229,7 +229,7 @@ static err_t tcp_cmd_recv_callback(void *arg, struct tcp_pcb *tpcb, struct pbuf 
 			memcpy(send_buf1,receivebuf1,7);
 			memcpy(send_buf1+7,&msg_send,4);
 			sendlen1 = 12;
-			send_buf1[sendlen1-1] = checksum(send_buf1,sendlen1-1); // �����checksum���ȫ��
+			send_buf1[sendlen1-1] = checksum(send_buf1,sendlen1-1); // 计算除checksum外的全部
 			memcpy(send_buf1,&sendlen1,2);
 		}
 		if(cmd_index==1)
@@ -243,7 +243,7 @@ static err_t tcp_cmd_recv_callback(void *arg, struct tcp_pcb *tpcb, struct pbuf 
 			memcpy(send_buf1,receivebuf1,7);
 			memcpy(send_buf1+7,&msg_send,4);
 			sendlen1 = 12;
-			send_buf1[sendlen1-1] = checksum(send_buf1,sendlen1-1); // �����checksum���ȫ��
+			send_buf1[sendlen1-1] = checksum(send_buf1,sendlen1-1); // 计算除checksum外的全部
 			memcpy(send_buf1,&sendlen1,2);
 		}
 		if(cmd_index==2)
@@ -257,7 +257,7 @@ static err_t tcp_cmd_recv_callback(void *arg, struct tcp_pcb *tpcb, struct pbuf 
 			memcpy(send_buf1,receivebuf1,7);
 			memcpy(send_buf1+7,&msg_send,4);
 			sendlen1 = 12;
-			send_buf1[sendlen1-1] = checksum(send_buf1,sendlen1-1); // �����checksum���ȫ��
+			send_buf1[sendlen1-1] = checksum(send_buf1,sendlen1-1); // 计算除checksum外的全部
 			memcpy(send_buf1,&sendlen1,2);
 		}
 		if(cmd_index==3)
@@ -271,7 +271,7 @@ static err_t tcp_cmd_recv_callback(void *arg, struct tcp_pcb *tpcb, struct pbuf 
 			memcpy(send_buf1,receivebuf1,7);
 			memcpy(send_buf1+7,&msg_send,4);
 			sendlen1 = 12;
-			send_buf1[sendlen1-1] = checksum(send_buf1,sendlen1-1); // �����checksum���ȫ��
+			send_buf1[sendlen1-1] = checksum(send_buf1,sendlen1-1); // 计算除checksum外的全部
 			memcpy(send_buf1,&sendlen1,2);
 		}
 		if(cmd_index==4)
@@ -285,7 +285,7 @@ static err_t tcp_cmd_recv_callback(void *arg, struct tcp_pcb *tpcb, struct pbuf 
 			memcpy(send_buf1,receivebuf1,7);
 			memcpy(send_buf1+7,&msg_send,4);
 			sendlen1 = 12;
-			send_buf1[sendlen1-1] = checksum(send_buf1,sendlen1-1); // �����checksum���ȫ��
+			send_buf1[sendlen1-1] = checksum(send_buf1,sendlen1-1); // 计算除checksum外的全部
 			memcpy(send_buf1,&sendlen1,2);
 		}
 		if(cmd_index==5)// cur_ch_get
@@ -293,7 +293,7 @@ static err_t tcp_cmd_recv_callback(void *arg, struct tcp_pcb *tpcb, struct pbuf 
 			memcpy(send_buf1,receivebuf1,7);
 			memcpy(send_buf1+7,&cerrent_ch,1);
 			sendlen1 = 9;
-			send_buf1[sendlen1-1] = checksum(send_buf1,sendlen1-1); // �����checksum���ȫ��
+			send_buf1[sendlen1-1] = checksum(send_buf1,sendlen1-1); // 计算除checksum外的全部
 			memcpy(send_buf1,&sendlen1,2);
 		}
 		if(cmd_index==6) //cur_ch_set
@@ -304,7 +304,7 @@ static err_t tcp_cmd_recv_callback(void *arg, struct tcp_pcb *tpcb, struct pbuf 
 			memcpy(send_buf1,receivebuf1,7);
 			memcpy(send_buf1+7,&msg_send,1);
 			sendlen1 = 7 + 1 + 1;
-			send_buf1[sendlen1-1] = checksum(send_buf1,sendlen1-1); // �����checksum���ȫ��
+			send_buf1[sendlen1-1] = checksum(send_buf1,sendlen1-1); // 计算除checksum外的全部
 			memcpy(send_buf1,&sendlen1,2);
 		}
 		if(cmd_index == 7)
@@ -315,7 +315,7 @@ static err_t tcp_cmd_recv_callback(void *arg, struct tcp_pcb *tpcb, struct pbuf 
 			memcpy(send_buf1,receivebuf1,7);
 			memcpy(send_buf1+7,&msg_send,1);
 			sendlen1 = 7 + 1 + 1;
-			send_buf1[sendlen1-1] = checksum(send_buf1,sendlen1-1); // �����checksum���ȫ��
+			send_buf1[sendlen1-1] = checksum(send_buf1,sendlen1-1); // 计算除checksum外的全部
 			memcpy(send_buf1,&sendlen1,2);
 		}
 		if(cmd_index==10) // ��ѯglobal_config
@@ -323,7 +323,7 @@ static err_t tcp_cmd_recv_callback(void *arg, struct tcp_pcb *tpcb, struct pbuf 
 			memcpy(send_buf1,receivebuf1,7);
 		//	memcpy(send_buf1+7, &global_config, sizeof(config_Settings_t));
 		//	sendlen1 = 7 + sizeof(config_Settings_t) + 1;
-			send_buf1[sendlen1-1] = checksum(send_buf1,sendlen1-1); // �����checksum���ȫ��
+			send_buf1[sendlen1-1] = checksum(send_buf1,sendlen1-1); // 计算除checksum外的全部
 			memcpy(send_buf1,&sendlen1,2);
 		}
 		if(cmd_index==11) // д��global_config
@@ -349,7 +349,7 @@ static err_t tcp_cmd_recv_callback(void *arg, struct tcp_pcb *tpcb, struct pbuf 
 			memcpy(send_buf1,receivebuf1,7);
 			memcpy(send_buf1+7,&msg_send,1);
 			sendlen1 = 7 + 1 + 1;
-			send_buf1[sendlen1-1] = checksum(send_buf1,sendlen1-1); // �����checksum���ȫ��
+			send_buf1[sendlen1-1] = checksum(send_buf1,sendlen1-1); // 计算除checksum外的全部
 			memcpy(send_buf1,&sendlen1,2);
 		}
 		if(cmd_index==12) // ��ѯdefault_config
@@ -357,7 +357,7 @@ static err_t tcp_cmd_recv_callback(void *arg, struct tcp_pcb *tpcb, struct pbuf 
 			memcpy(send_buf1,receivebuf1,7);
 		//	memcpy(send_buf1+7, &default_config, sizeof(config_Settings_t));
 			//sendlen1 = 7 + sizeof(config_Settings_t) + 1;
-			send_buf1[sendlen1-1] = checksum(send_buf1,sendlen1-1); // �����checksum���ȫ��
+			send_buf1[sendlen1-1] = checksum(send_buf1,sendlen1-1); // 计算除checksum外的全部
 			memcpy(send_buf1,&sendlen1,2);
 		}
     }

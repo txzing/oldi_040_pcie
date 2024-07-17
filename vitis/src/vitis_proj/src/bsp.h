@@ -49,18 +49,11 @@
 #include "xil_printf.h"
 #endif // __PPC__
 
-//下面是串口非打印所需
-//#if defined (XPAR_XUARTLITE_NUM_INSTANCES)	// 一般用 uart lite，znyq zynqmp mb都可以用
-//#include "xuartlite_l.h"
-////#elif defined (ARMR5) || defined (__aarch64__) || defined (__arm__)	// zynqmp 有 r5 核， a53 核， znyq有 a9 核
-//#elif defined (XPAR_XUARTPS_NUM_INSTANCES)  // 如果没有 uart lite，再检查是否有 ps uart
-//#include "xuartps.h"
-//#endif
 #if defined (XPAR_XUARTLITE_NUM_INSTANCES)	// 一般用 uart lite，znyq zynqmp mb都可以用
 #include "xuartlite_l.h"
 #endif // XPAR_XUARTLITE_NUM_INSTANCESs
-#if defined (XPAR_XUARTPS_NUM_INSTANCES)  // ps uart
-#include "xuartps.h"
+#if defined (XPAR_XUARTPS_NUM_INSTANCES) // zynqmp 有 r5 核， a53 核， znyq有 a9 核
+#include "xuartps.h"  // 如果没有 uart lite，再检查是否有 ps uart
 #endif // XPAR_XUARTPS_NUM_INSTANCES
 
 // 一般都会设置hw的版本号
@@ -73,31 +66,8 @@
 #include "axis_passthrough_monitor.h"
 #endif // XPAR_AXI_PASSTHROUGH_MONITOR_NUM_INSTANCES
 
-#include "lwip_servers/lwip_common.h"
-#include "lwip_servers/udp_cmd.h"
-#include "lwip_servers/tcp_cmd.h"
-// IAP methods
-// udp remote update
-#include "lwip_servers/udp_update.h"
-// tcp remote update
-#include "lwip_servers/tcp_update.h"
-
 
 // 中断发生器
-//#if defined (__MICROBLAZE__)
-//#include "xintc.h"
-//#else
-//#include "xscugic.h"
-//#endif
-
-//#if defined (ARMR5) || defined (__aarch64__) || defined (__arm__)
-//#include "xscugic.h"
-//#include "xil_exception.h"
-//#else
-//#include "xintc.h"
-//#include "xil_exception.h"
-//#endif
-
 #if defined (XPAR_XSCUGIC_NUM_INSTANCES)
 #include "xscugic.h"
 #include "xil_exception.h"
@@ -129,37 +99,46 @@ extern INTC InterruptController;	/* Instance of the Interrupt Controller */
 
 // 自定义外设库头文件
 #include "xgpio_i2c/xgpio_i2c.h"
-#include "ps_gpio/ps_gpio.h"
 #include "clk_wiz/clk_wiz.h"
-#include "vtc/vtc.h"
 #include "tpg/tpg.h"
 #include "xswitch/xswitch.h"
-#include "csi_rx/csi_rx.h"
-#include "csi_tx/csi_tx.h"
 #include "vdma/vdma.h"
-#include "ps_i2c/ps_i2c.h"
-#include "x_i2c/x_i2c.h"
-#include "emio_i2c/emio_i2c.h"
-#include "eeprom/eeprom.h"
-#include "vpss/vpss.h"
-#include "demosaic/demosaic.h"
-#include "gamma_lut/gamma_lut.h"
-#include "sil9136/sil9136.h"
-#include "ads7128/ads7128.h"
-#include "it6801/it6801.h"
+//#include "vtc/vtc.h"
+//#include "ps_gpio/ps_gpio.h"
+//#include "csi_rx/csi_rx.h"
+//#include "csi_tx/csi_tx.h"
+//#include "ps_i2c/ps_i2c.h"
+//#include "x_i2c/x_i2c.h"
+//#include "emio_i2c/emio_i2c.h"
+//#include "eeprom/eeprom.h"
+//#include "demosaic/demosaic.h"
+//#include "gamma_lut/gamma_lut.h"
+//#include "sil9136/sil9136.h"
+//#include "ads7128/ads7128.h"
+//#include "it6801/it6801.h"
+//#include "vpss/vpss.h"
 #include "qspi_flash/qspi_flash.h"
-#include "rs485/rs485.h"
 #include "axi_timer/axi_timer.h"
-#include "uartlite_fifo/uartlite_fifo.h"
+#include "xgpio/xgpio.h"
+//#include "dp/dp_app.h"
 
 #if defined (MODBUS_RTU_SLAVE)
-#if !defined (__RS485_H__)
-#error "No rs485 heir in design"
-#endif
 #include "modbus_slave/modbus_slave.h"
+#include "modbus_slave/axi_uartlite_fifo/axi_uartlite_fifo.h"
 #endif // MODBUS_RTU_SLAVE
 
 // 自定义数据头文件
 #include "serdes/serdes.h"
+#include "user_app.h"
+
+// lwip servers
+#include "lwip_servers/lwip_common.h"
+#include "lwip_servers/udp_cmd.h"
+#include "lwip_servers/tcp_cmd.h"
+// IAP methods
+// udp remote update
+#include "lwip_servers/udp_update.h"
+// tcp remote update
+#include "lwip_servers/tcp_update.h"
 
 #endif // __BSP_H__

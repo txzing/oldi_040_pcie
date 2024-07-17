@@ -59,7 +59,7 @@ void udp_cmd_recv_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p,
     	sendlen=receivelen;
     	//memcpy(send_buf,&sendlen,2);
     	memcpy(send_buf+9,&msg_value,4);
-    	send_buf[sendlen-1] = checksum(send_buf,sendlen-1); // �����checksum���ȫ��
+    	send_buf[sendlen-1] = checksum(send_buf,sendlen-1); // 计算除checksum外的全部
     	memcpy(send_buf,&sendlen,2);
     }
     if(msg_cmd==0x11)	// write mem addr
@@ -75,7 +75,7 @@ void udp_cmd_recv_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p,
 		sendlen=receivelen;
 		//memcpy(send_buf,&sendlen,2);
 		memcpy(send_buf+9,&msg_value,4);
-		send_buf[sendlen-1] = checksum(send_buf,sendlen-1); // �����checksum���ȫ��
+		send_buf[sendlen-1] = checksum(send_buf,sendlen-1); // 计算除checksum外的全部
 		memcpy(send_buf,&sendlen,2);
 	}
     if(msg_cmd==0x12)	// read mem bulk
@@ -86,7 +86,7 @@ void udp_cmd_recv_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p,
 		memcpy(send_buf+receivelen-1,(void*)msg_addr,mem_len*4);
 		sendlen=receivelen+mem_len*4;
 		memcpy(send_buf,&sendlen,2);
-		send_buf[sendlen-1] = checksum(send_buf,sendlen-1); // �����checksum���ȫ��
+		send_buf[sendlen-1] = checksum(send_buf,sendlen-1); // 计算除checksum外的全部
 	}
     if(msg_cmd==0x13)	// write mem bulk
 	{
@@ -96,7 +96,7 @@ void udp_cmd_recv_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p,
 		sendlen=receivelen-mem_len*4;
 		memcpy(send_buf,receivebuf,sendlen);
 //		memcpy(send_buf,&sendlen,2);
-		send_buf[sendlen-1] = checksum(send_buf,sendlen-1); // �����checksum���ȫ��
+		send_buf[sendlen-1] = checksum(send_buf,sendlen-1); // 计算除checksum外的全部
 		memcpy(send_buf,&sendlen,2);
 	}
     if(msg_cmd == 0x20)
@@ -176,7 +176,7 @@ void udp_cmd_recv_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p,
 			memcpy(send_buf,receivebuf,7);
 			memcpy(send_buf+7,&msg_send,4);
 			sendlen = 12;
-			send_buf[sendlen-1] = checksum(send_buf,sendlen-1); // �����checksum���ȫ��
+			send_buf[sendlen-1] = checksum(send_buf,sendlen-1); // 计算除checksum外的全部
 			memcpy(send_buf,&sendlen,2);
 		}
 		if(cmd_index==1)
@@ -190,7 +190,7 @@ void udp_cmd_recv_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p,
 			memcpy(send_buf,receivebuf,7);
 			memcpy(send_buf+7,&msg_send,4);
 			sendlen = 12;
-			send_buf[sendlen-1] = checksum(send_buf,sendlen-1); // �����checksum���ȫ��
+			send_buf[sendlen-1] = checksum(send_buf,sendlen-1); // 计算除checksum外的全部
 			memcpy(send_buf,&sendlen,2);
 		}
 		if(cmd_index==2)
@@ -204,7 +204,7 @@ void udp_cmd_recv_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p,
 			memcpy(send_buf,receivebuf,7);
 			memcpy(send_buf+7,&msg_send,4);
 			sendlen = 12;
-			send_buf[sendlen-1] = checksum(send_buf,sendlen-1); // �����checksum���ȫ��
+			send_buf[sendlen-1] = checksum(send_buf,sendlen-1); // 计算除checksum外的全部
 			memcpy(send_buf,&sendlen,2);
 		}
 		if(cmd_index==3)
@@ -218,7 +218,7 @@ void udp_cmd_recv_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p,
 			memcpy(send_buf,receivebuf,7);
 			memcpy(send_buf+7,&msg_send,4);
 			sendlen = 12;
-			send_buf[sendlen-1] = checksum(send_buf,sendlen-1); // �����checksum���ȫ��
+			send_buf[sendlen-1] = checksum(send_buf,sendlen-1); // 计算除checksum外的全部
 			memcpy(send_buf,&sendlen,2);
 		}
 		if(cmd_index==4)
@@ -232,7 +232,7 @@ void udp_cmd_recv_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p,
 			memcpy(send_buf,receivebuf,7);
 			memcpy(send_buf+7,&msg_send,4);
 			sendlen = 12;
-			send_buf[sendlen-1] = checksum(send_buf,sendlen-1); // �����checksum���ȫ��
+			send_buf[sendlen-1] = checksum(send_buf,sendlen-1); // 计算除checksum外的全部
 			memcpy(send_buf,&sendlen,2);
 		}
 		if(cmd_index==5)// cur_ch_get
@@ -240,7 +240,7 @@ void udp_cmd_recv_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p,
 			memcpy(send_buf,receivebuf,7);
 			memcpy(send_buf+7,&cerrent_ch,1);
 			sendlen = 9;
-			send_buf[sendlen-1] = checksum(send_buf,sendlen-1); // �����checksum���ȫ��
+			send_buf[sendlen-1] = checksum(send_buf,sendlen-1); // 计算除checksum外的全部
 			memcpy(send_buf,&sendlen,2);
 		}
 		if(cmd_index==6) //cur_ch_set
@@ -251,7 +251,7 @@ void udp_cmd_recv_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p,
 			memcpy(send_buf,receivebuf,7);
 			memcpy(send_buf+7,&msg_send,1);
 			sendlen = 7 + 1 + 1;
-			send_buf[sendlen-1] = checksum(send_buf,sendlen-1); // �����checksum���ȫ��
+			send_buf[sendlen-1] = checksum(send_buf,sendlen-1); // 计算除checksum外的全部
 			memcpy(send_buf,&sendlen,2);
 		}
 		if(cmd_index == 7)
@@ -262,7 +262,7 @@ void udp_cmd_recv_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p,
 			memcpy(send_buf,receivebuf,7);
 			memcpy(send_buf+7,&msg_send,1);
 			sendlen = 7 + 1 + 1;
-			send_buf[sendlen-1] = checksum(send_buf,sendlen-1); // �����checksum���ȫ��
+			send_buf[sendlen-1] = checksum(send_buf,sendlen-1); // 计算除checksum外的全部
 			memcpy(send_buf,&sendlen,2);
 		}
 		if(cmd_index==10) // ��ѯglobal_config
@@ -270,7 +270,7 @@ void udp_cmd_recv_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p,
 			memcpy(send_buf,receivebuf,7);
 		//	memcpy(send_buf+7, &global_config, sizeof(config_Settings_t));
 		//	sendlen = 7 + sizeof(config_Settings_t) + 1;
-			send_buf[sendlen-1] = checksum(send_buf,sendlen-1); // �����checksum���ȫ��
+			send_buf[sendlen-1] = checksum(send_buf,sendlen-1); // 计算除checksum外的全部
 			memcpy(send_buf,&sendlen,2);
 		}
 		if(cmd_index==11) // д��global_config
@@ -296,7 +296,7 @@ void udp_cmd_recv_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p,
 			memcpy(send_buf,receivebuf,7);
 			memcpy(send_buf+7,&msg_send,1);
 			sendlen = 7 + 1 + 1;
-			send_buf[sendlen-1] = checksum(send_buf,sendlen-1); // �����checksum���ȫ��
+			send_buf[sendlen-1] = checksum(send_buf,sendlen-1); // 计算除checksum外的全部
 			memcpy(send_buf,&sendlen,2);
 		}
 		if(cmd_index==12) // ��ѯdefault_config
@@ -304,7 +304,7 @@ void udp_cmd_recv_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p,
 			memcpy(send_buf,receivebuf,7);
 		//	memcpy(send_buf+7, &default_config, sizeof(config_Settings_t));
 			//sendlen = 7 + sizeof(config_Settings_t) + 1;
-			send_buf[sendlen-1] = checksum(send_buf,sendlen-1); // �����checksum���ȫ��
+			send_buf[sendlen-1] = checksum(send_buf,sendlen-1); // 计算除checksum外的全部
 			memcpy(send_buf,&sendlen,2);
 		}
     }

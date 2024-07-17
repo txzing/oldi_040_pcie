@@ -112,14 +112,15 @@ struct reginfo max96717_rgb888_gmsl2[] =
 };
 #endif // SER_CFG
 
-int max929x_write(i2c_no i2c, u8 addr, u16 reg, u8 data)
+int serdes_i2c_write_8(i2c_no i2c, u8 addr, u16 reg, u8 data)
 {
 	int ret;
-	ret = xgpio_i2c_reg16_write(i2c, addr>>1, reg, data, STRETCH_ON);
+	ret = xgpio_i2c_reg8_write(i2c, addr >> 1, reg, data, STRETCH_ON);
 	return ret;
 }
 
-void max929x_write_array(i2c_no i2c, struct reginfo *regarray)
+
+void serdes_i2c_write_array_8(i2c_no i2c, struct reginfo *regarray)
 {
 	int i = 0;
 
@@ -131,11 +132,38 @@ void max929x_write_array(i2c_no i2c, struct reginfo *regarray)
 		}
 		else
 		{
-			max929x_write(i2c, regarray[i].addr, regarray[i].reg,regarray[i].val);
+			serdes_i2c_write_8(i2c, regarray[i].addr, regarray[i].reg, regarray[i].val);
 		}
 		i++;
 	}
 }
+
+int serdes_i2c_write_16(i2c_no i2c, u8 addr, u16 reg, u8 data)
+{
+	int ret;
+	ret = xgpio_i2c_reg16_write(i2c, addr >> 1, reg, data, STRETCH_ON);
+	return ret;
+}
+
+
+void serdes_i2c_write_array_16(i2c_no i2c, struct reginfo *regarray)
+{
+	int i = 0;
+
+	while (regarray[i].reg != SEQUENCE_END)
+	{
+		if(regarray[i].reg == SEQUENCE_WAIT_MS)
+		{
+		      usleep((regarray[i].val)*1000);
+		}
+		else
+		{
+			serdes_i2c_write(i2c, regarray[i].addr, regarray[i].reg, regarray[i].val);
+		}
+		i++;
+	}
+}
+
 
 #endif // SER_CFG || DES_CFG
 

@@ -75,23 +75,48 @@ int AxisSwitch(u16 DeviceId, XAxis_Switch * pAxisSwitch, u8 SiIndex, u8 MiIndex)
     return XST_SUCCESS;
 }
 
-int axis_switch_cfg(u8 s_num)
+int axis_switch_cfg(void)
 {
     int Status;
 
-    Status = AxisSwitch(XPAR_AXIS_SWITCH_0_DEVICE_ID, &AxisSwitch0, s_num, 0);
+#if (XPAR_XAXIS_SWITCH_NUM_INSTANCES >= 1U)
+    Status = AxisSwitch(XPAR_CLOCK_AND_MEMORY_SUBSYSTEM_AXIS_SWITCH_0_DEVICE_ID, &AxisSwitch0, 1, 0); //
     if (Status != XST_SUCCESS)
 	{
 //		Xil_Assert(__FILE__, __LINE__);
-		bsp_printf(TXT_RED "In %s: AxisSwitch failed...\r\n" TXT_RST, __func__);
+		bsp_printf(TXT_RED "In %s: AxisSwitch0 failed...\r\n" TXT_RST, __func__);
 		return XST_FAILURE ;
 	}
+#endif
+#if (XPAR_XAXIS_SWITCH_NUM_INSTANCES >= 2U)
+    Status = AxisSwitch(XPAR_AXIS_SWITCH_0_DEVICE_ID, &AxisSwitch1, 0, 0);
+    if (Status != XST_SUCCESS)
+	{
+//		Xil_Assert(__FILE__, __LINE__);
+		bsp_printf(TXT_RED "In %s: AxisSwitch1 failed...\r\n" TXT_RST, __func__);
+		return XST_FAILURE ;
+	}
+#endif
+#if (XPAR_XAXIS_SWITCH_NUM_INSTANCES >= 3U)
+    Status = AxisSwitch(XPAR_MEMORY_SUBSYSTEM_AXIS_SWITCH_0_DEVICE_ID, &AxisSwitch2, 0, 0); //
+    if (Status != XST_SUCCESS)
+	{
+//		Xil_Assert(__FILE__, __LINE__);
+		bsp_printf(TXT_RED "In %s: AxisSwitch2 failed...\r\n" TXT_RST, __func__);
+		return XST_FAILURE ;
+	}
+#endif
+#if (XPAR_XAXIS_SWITCH_NUM_INSTANCES >= 4U)
+    Status = AxisSwitch(XPAR_CH_2_AXIS_SWITCH_0_DEVICE_ID, &AxisSwitch3, 0, 0); //
+    if (Status != XST_SUCCESS)
+	{
+//		Xil_Assert(__FILE__, __LINE__);
+		bsp_printf(TXT_RED "In %s: AxisSwitch3 failed...\r\n" TXT_RST, __func__);
+		return XST_FAILURE ;
+	}
+#endif
 
-//    Status = AxisSwitch(XPAR_AXIS_SWITCH_1_DEVICE_ID, &AxisSwitch1, 1, 0);
-//	{
-////		Xil_Assert(__FILE__, __LINE__);
-//		return XST_FAILURE ;
-//	}
+   return XST_SUCCESS;
 }
 
 #endif // XPAR_XAXIS_SWITCH_NUM_INSTANCES

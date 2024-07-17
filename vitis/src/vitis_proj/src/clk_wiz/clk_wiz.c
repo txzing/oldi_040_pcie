@@ -4,12 +4,9 @@
 
 #if (XPAR_XCLK_WIZ_NUM_INSTANCES == 1U)
 XClk_Wiz ClkWiz_Dynamic0;
-#elif (XPAR_XCLK_WIZ_NUM_INSTANCES == 2U)
-XClk_Wiz ClkWiz_Dynamic0;
+#elif (XPAR_XCLK_WIZ_NUM_INSTANCES >= 2U)
 XClk_Wiz ClkWiz_Dynamic1;
-#elif (XPAR_XCLK_WIZ_NUM_INSTANCES == 3U)
-XClk_Wiz ClkWiz_Dynamic0;
-XClk_Wiz ClkWiz_Dynamic1;
+#elif (XPAR_XCLK_WIZ_NUM_INSTANCES >= 3U)
 XClk_Wiz ClkWiz_Dynamic3;
 #endif
 
@@ -124,45 +121,30 @@ int XClk_Wiz_dynamic_reconfig(XClk_Wiz * ClkWizInstance, u32 DeviceId)
                    *(u32 *) (CfgPtr_Dynamic->BaseAddr + 0x04) & CLK_LOCK);
     }
 
-//    //in=200
-//    //out1=297
-//    Multiply_Int = 37;
+//in=100
+//out1 270
+//    Multiply_Int = 10;
 //    Multiply_Frac = 125;
-//    Divide = 5;
-//    Divide0_Int = 5;
-//    Divide0_Frac = 0;
+//    Divide = 1;
+//    Divide0_Int = 3;
+//    Divide0_Frac = 750;
 
-    //in=200
-    //out1=148.5
-    Multiply_Int = 37;
-    Multiply_Frac = 125;
-    Divide = 5;
-    Divide0_Int = 10;
-    Divide0_Frac = 0;
-
-//    //in=200
-//    //out1=74.25
-//    Multiply_Int = 37;
-//    Multiply_Frac = 125;
-//    Divide = 5;
-//    Divide0_Int = 20;
-//    Divide0_Frac = 0;
-
-//    //in=200
-//    //out1=85.8
-//    Multiply_Int = 53;
-//    Multiply_Frac = 625;
-//    Divide = 10;
-//    Divide0_Int = 12;
-//    Divide0_Frac = 500;
-
-//    //in=200
-//    //out1=96.2438
-//    Multiply_Int = 84;
+//in=100
+//out1 150
+//    Multiply_Int = 19;
 //    Multiply_Frac = 875;
-//    Divide = 17;
-//    Divide0_Int = 10;
-//    Divide0_Frac = 375;
+//    Divide = 2;
+//    Divide0_Int = 6;
+//    Divide0_Frac = 625;
+
+
+//in=100
+//out1 150
+	Multiply_Int = 40;
+	Multiply_Frac = 125;
+	Divide = 4;
+	Divide0_Int = 13;
+	Divide0_Frac = 375;
 
 
     /* Configuring Multiply and Divide values */
@@ -220,7 +202,7 @@ int clkwiz_config(void)
     	bsp_printf(TXT_RED "XClk_Wiz0 dynamic reconfig failed.\r\n" TXT_RST);
     	return XST_FAILURE;
     }
-//    bsp_printf("XClk_Wiz0 dynamic reconfig ok\n\r");
+    bsp_printf("XClk_Wiz0 dynamic reconfig ok\n\r");
 
     return XST_SUCCESS;
 }

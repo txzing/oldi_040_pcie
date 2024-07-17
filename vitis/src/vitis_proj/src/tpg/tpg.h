@@ -6,21 +6,7 @@
 #include "xv_tpg.h"
 #include "xvidc.h"
 
-//#if (XPAR_XV_TPG_NUM_INSTANCES == 1U)
-//extern XV_tpg tpg_inst0;
-//#elif (XPAR_XV_TPG_NUM_INSTANCES == 2U)
-//extern XV_tpg tpg_inst0;
-//extern XV_tpg tpg_inst1;
-//#elif (XPAR_XV_TPG_NUM_INSTANCES == 3U)
-//extern XV_tpg tpg_inst0;
-//extern XV_tpg tpg_inst1;
-//extern XV_tpg tpg_inst2;
-//#elif (XPAR_XV_TPG_NUM_INSTANCES == 4U)
-//extern XV_tpg tpg_inst0;
-//extern XV_tpg tpg_inst1;
-//extern XV_tpg tpg_inst2;
-//extern XV_tpg tpg_inst3;
-//#endif
+
 #if (XPAR_XV_TPG_NUM_INSTANCES >= 1U)
 extern XV_tpg tpg_inst0;
 #endif // XPAR_XV_TPG_NUM_INSTANCES == 1U
