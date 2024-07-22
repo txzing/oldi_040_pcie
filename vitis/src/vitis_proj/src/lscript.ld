@@ -10,8 +10,8 @@
 /*                                                                 */
 /*******************************************************************/
 
-_STACK_SIZE = DEFINED(_STACK_SIZE) ? _STACK_SIZE : 0x5000;
-_HEAP_SIZE = DEFINED(_HEAP_SIZE) ? _HEAP_SIZE : 0x5000;
+_STACK_SIZE = DEFINED(_STACK_SIZE) ? _STACK_SIZE : 0x2800;
+_HEAP_SIZE = DEFINED(_HEAP_SIZE) ? _HEAP_SIZE : 0x2800;
 
 /* Define Memories in the system */
 
@@ -49,19 +49,19 @@ SECTIONS
    *(.text)
    *(.text.*)
    *(.gnu.linkonce.t.*)
-} > memory_subsystem_ddr4_0_C0_DDR4_ADDRESS_BLOCK
+} > processor_subsystem_microblaze_0_local_memory_ilmb_bram_if_cntlr_Mem_processor_subsystem_microblaze_0_local_memory_dlmb_bram_if_cntlr_Mem
 
 .note.gnu.build-id : {
    KEEP (*(.note.gnu.build-id))
-} > memory_subsystem_ddr4_0_C0_DDR4_ADDRESS_BLOCK
+} > processor_subsystem_microblaze_0_local_memory_ilmb_bram_if_cntlr_Mem_processor_subsystem_microblaze_0_local_memory_dlmb_bram_if_cntlr_Mem
 
 .init : {
    KEEP (*(.init))
-} > memory_subsystem_ddr4_0_C0_DDR4_ADDRESS_BLOCK
+} > processor_subsystem_microblaze_0_local_memory_ilmb_bram_if_cntlr_Mem_processor_subsystem_microblaze_0_local_memory_dlmb_bram_if_cntlr_Mem
 
 .fini : {
    KEEP (*(.fini))
-} > memory_subsystem_ddr4_0_C0_DDR4_ADDRESS_BLOCK
+} > processor_subsystem_microblaze_0_local_memory_ilmb_bram_if_cntlr_Mem_processor_subsystem_microblaze_0_local_memory_dlmb_bram_if_cntlr_Mem
 
 .ctors : {
    __CTOR_LIST__ = .;
@@ -72,7 +72,7 @@ SECTIONS
    KEEP (*(.ctors))
    __CTOR_END__ = .;
    ___CTORS_END___ = .;
-} > memory_subsystem_ddr4_0_C0_DDR4_ADDRESS_BLOCK
+} > processor_subsystem_microblaze_0_local_memory_ilmb_bram_if_cntlr_Mem_processor_subsystem_microblaze_0_local_memory_dlmb_bram_if_cntlr_Mem
 
 .dtors : {
    __DTOR_LIST__ = .;
@@ -83,7 +83,7 @@ SECTIONS
    KEEP (*(.dtors))
    PROVIDE(__DTOR_END__ = .);
    PROVIDE(___DTORS_END___ = .);
-} > memory_subsystem_ddr4_0_C0_DDR4_ADDRESS_BLOCK
+} > processor_subsystem_microblaze_0_local_memory_ilmb_bram_if_cntlr_Mem_processor_subsystem_microblaze_0_local_memory_dlmb_bram_if_cntlr_Mem
 
 .rodata : {
    __rodata_start = .;
@@ -91,7 +91,7 @@ SECTIONS
    *(.rodata.*)
    *(.gnu.linkonce.r.*)
    __rodata_end = .;
-} > memory_subsystem_ddr4_0_C0_DDR4_ADDRESS_BLOCK
+} > processor_subsystem_microblaze_0_local_memory_ilmb_bram_if_cntlr_Mem_processor_subsystem_microblaze_0_local_memory_dlmb_bram_if_cntlr_Mem
 
 .sdata2 : {
    . = ALIGN(8);
@@ -101,7 +101,7 @@ SECTIONS
    *(.gnu.linkonce.s2.*)
    . = ALIGN(8);
    __sdata2_end = .;
-} > memory_subsystem_ddr4_0_C0_DDR4_ADDRESS_BLOCK
+} > processor_subsystem_microblaze_0_local_memory_ilmb_bram_if_cntlr_Mem_processor_subsystem_microblaze_0_local_memory_dlmb_bram_if_cntlr_Mem
 
 .sbss2 : {
    __sbss2_start = .;
@@ -109,7 +109,7 @@ SECTIONS
    *(.sbss2.*)
    *(.gnu.linkonce.sb2.*)
    __sbss2_end = .;
-} > memory_subsystem_ddr4_0_C0_DDR4_ADDRESS_BLOCK
+} > processor_subsystem_microblaze_0_local_memory_ilmb_bram_if_cntlr_Mem_processor_subsystem_microblaze_0_local_memory_dlmb_bram_if_cntlr_Mem
 
 .data : {
    . = ALIGN(4);
@@ -118,31 +118,31 @@ SECTIONS
    *(.data.*)
    *(.gnu.linkonce.d.*)
    __data_end = .;
-} > memory_subsystem_ddr4_0_C0_DDR4_ADDRESS_BLOCK
+} > processor_subsystem_microblaze_0_local_memory_ilmb_bram_if_cntlr_Mem_processor_subsystem_microblaze_0_local_memory_dlmb_bram_if_cntlr_Mem
 
 .got : {
    *(.got)
-} > memory_subsystem_ddr4_0_C0_DDR4_ADDRESS_BLOCK
+} > processor_subsystem_microblaze_0_local_memory_ilmb_bram_if_cntlr_Mem_processor_subsystem_microblaze_0_local_memory_dlmb_bram_if_cntlr_Mem
 
 .got1 : {
    *(.got1)
-} > memory_subsystem_ddr4_0_C0_DDR4_ADDRESS_BLOCK
+} > processor_subsystem_microblaze_0_local_memory_ilmb_bram_if_cntlr_Mem_processor_subsystem_microblaze_0_local_memory_dlmb_bram_if_cntlr_Mem
 
 .got2 : {
    *(.got2)
-} > memory_subsystem_ddr4_0_C0_DDR4_ADDRESS_BLOCK
+} > processor_subsystem_microblaze_0_local_memory_ilmb_bram_if_cntlr_Mem_processor_subsystem_microblaze_0_local_memory_dlmb_bram_if_cntlr_Mem
 
 .eh_frame : {
    *(.eh_frame)
-} > memory_subsystem_ddr4_0_C0_DDR4_ADDRESS_BLOCK
+} > processor_subsystem_microblaze_0_local_memory_ilmb_bram_if_cntlr_Mem_processor_subsystem_microblaze_0_local_memory_dlmb_bram_if_cntlr_Mem
 
 .jcr : {
    *(.jcr)
-} > memory_subsystem_ddr4_0_C0_DDR4_ADDRESS_BLOCK
+} > processor_subsystem_microblaze_0_local_memory_ilmb_bram_if_cntlr_Mem_processor_subsystem_microblaze_0_local_memory_dlmb_bram_if_cntlr_Mem
 
 .gcc_except_table : {
    *(.gcc_except_table)
-} > memory_subsystem_ddr4_0_C0_DDR4_ADDRESS_BLOCK
+} > processor_subsystem_microblaze_0_local_memory_ilmb_bram_if_cntlr_Mem_processor_subsystem_microblaze_0_local_memory_dlmb_bram_if_cntlr_Mem
 
 .sdata : {
    . = ALIGN(8);
@@ -151,7 +151,7 @@ SECTIONS
    *(.sdata.*)
    *(.gnu.linkonce.s.*)
    __sdata_end = .;
-} > memory_subsystem_ddr4_0_C0_DDR4_ADDRESS_BLOCK
+} > processor_subsystem_microblaze_0_local_memory_ilmb_bram_if_cntlr_Mem_processor_subsystem_microblaze_0_local_memory_dlmb_bram_if_cntlr_Mem
 
 .sbss (NOLOAD) : {
    . = ALIGN(4);
@@ -161,7 +161,7 @@ SECTIONS
    *(.gnu.linkonce.sb.*)
    . = ALIGN(8);
    __sbss_end = .;
-} > memory_subsystem_ddr4_0_C0_DDR4_ADDRESS_BLOCK
+} > processor_subsystem_microblaze_0_local_memory_ilmb_bram_if_cntlr_Mem_processor_subsystem_microblaze_0_local_memory_dlmb_bram_if_cntlr_Mem
 
 .tdata : {
    __tdata_start = .;
@@ -169,7 +169,7 @@ SECTIONS
    *(.tdata.*)
    *(.gnu.linkonce.td.*)
    __tdata_end = .;
-} > memory_subsystem_ddr4_0_C0_DDR4_ADDRESS_BLOCK
+} > processor_subsystem_microblaze_0_local_memory_ilmb_bram_if_cntlr_Mem_processor_subsystem_microblaze_0_local_memory_dlmb_bram_if_cntlr_Mem
 
 .tbss : {
    __tbss_start = .;
@@ -177,7 +177,7 @@ SECTIONS
    *(.tbss.*)
    *(.gnu.linkonce.tb.*)
    __tbss_end = .;
-} > memory_subsystem_ddr4_0_C0_DDR4_ADDRESS_BLOCK
+} > processor_subsystem_microblaze_0_local_memory_ilmb_bram_if_cntlr_Mem_processor_subsystem_microblaze_0_local_memory_dlmb_bram_if_cntlr_Mem
 
 .bss (NOLOAD) : {
    . = ALIGN(4);
@@ -188,7 +188,7 @@ SECTIONS
    *(COMMON)
    . = ALIGN(4);
    __bss_end = .;
-} > memory_subsystem_ddr4_0_C0_DDR4_ADDRESS_BLOCK
+} > processor_subsystem_microblaze_0_local_memory_ilmb_bram_if_cntlr_Mem_processor_subsystem_microblaze_0_local_memory_dlmb_bram_if_cntlr_Mem
 
 _SDA_BASE_ = __sdata_start + ((__sbss_end - __sdata_start) / 2 );
 
@@ -202,7 +202,7 @@ _SDA2_BASE_ = __sdata2_start + ((__sbss2_end - __sdata2_start) / 2 );
    _heap_start = .;
    . += _HEAP_SIZE;
    _heap_end = .;
-} > memory_subsystem_ddr4_0_C0_DDR4_ADDRESS_BLOCK
+} > processor_subsystem_microblaze_0_local_memory_ilmb_bram_if_cntlr_Mem_processor_subsystem_microblaze_0_local_memory_dlmb_bram_if_cntlr_Mem
 
 .stack (NOLOAD) : {
    _stack_end = .;
@@ -210,7 +210,7 @@ _SDA2_BASE_ = __sdata2_start + ((__sbss2_end - __sdata2_start) / 2 );
    . = ALIGN(8);
    _stack = .;
    __stack = _stack;
-} > memory_subsystem_ddr4_0_C0_DDR4_ADDRESS_BLOCK
+} > processor_subsystem_microblaze_0_local_memory_ilmb_bram_if_cntlr_Mem_processor_subsystem_microblaze_0_local_memory_dlmb_bram_if_cntlr_Mem
 
 _end = .;
 }

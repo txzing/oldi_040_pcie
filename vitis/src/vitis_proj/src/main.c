@@ -9,7 +9,7 @@ int main()
 {
 	int Status ;
 	cerrent_ch = 1;//default A
-	timer_cnt = 0;
+//	timer_cnt = 0;
 
     init_platform(); // include interrupts setup
 

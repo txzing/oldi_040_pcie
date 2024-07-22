@@ -37,9 +37,8 @@ void app_info(void)
 
 void video_resolution_print(char *info,u32 baseaddr)
 {
-	xil_printf("-%s freq: %d -\r\n", info, AXI_PASSTHROUTH_MONITOR_REG_mReadReg(baseaddr, S_AXI_PASSTHROUTH_MONITOR_REG2_OFFSET));
-	xil_printf("-%s res: %dx%d -\r\n", info, AXI_PASSTHROUTH_MONITOR_REG_mReadReg(baseaddr, S_AXI_PASSTHROUTH_MONITOR_REG0_OFFSET),\
-												AXI_PASSTHROUTH_MONITOR_REG_mReadReg(baseaddr, S_AXI_PASSTHROUTH_MONITOR_REG1_OFFSET));
+	xil_printf("-%s freq: %d -\r\n", info, Xil_In32(baseaddr + 0x8));
+	xil_printf("-%s res: %dx%d -\r\n", info, Xil_In32(baseaddr + 0x8), Xil_In32(baseaddr + 0x4));
 }
 
 void uart_receive_process(void)
@@ -58,7 +57,8 @@ void uart_receive_process(void)
 
 			xil_printf("\r\n!!!!!!!!!!!!!!!!!!!!!!!!\r\n");
 			xil_printf("------------------------\r\n");
-			video_resolution_print("vdma in",XPAR_CLOCK_AND_MEMORY_SUBSYSTEM_AXIS_PASSTHROUGH_MON_0_S_AXI_LITE_BASEADDR);
+			video_resolution_print("oldi video in",XPAR_OLDI_IN_AXIS_PASSTHROUGH_MON_0_S00_AXI_BASEADDR);
+			video_resolution_print("vdma in",XPAR_AXIS_PASSTHROUGH_MON_0_S00_AXI_BASEADDR);
 			xil_printf("------------------------\r\n");
 		}
 		else if((UserInput == 'c') || (UserInput == 'C'))
@@ -79,12 +79,12 @@ void uart_receive_process(void)
 			xil_printf("------------------------\r\n");
 			if(UserInput == '0')
 			{
-			    AxisSwitch(XPAR_CLOCK_AND_MEMORY_SUBSYSTEM_AXIS_SWITCH_0_DEVICE_ID, &AxisSwitch0, 1, 0); //TPG
+			    AxisSwitch(XPAR_AXIS_SWITCH_0_DEVICE_ID, &AxisSwitch0, 1, 0); //TPG
 			    xil_printf("------------switch to TPG-----------\r\n");
 			}
 			else if(UserInput == '1')
 			{
-				AxisSwitch(XPAR_CLOCK_AND_MEMORY_SUBSYSTEM_AXIS_SWITCH_0_DEVICE_ID, &AxisSwitch0, 0, 0); //stream
+				AxisSwitch(XPAR_AXIS_SWITCH_0_DEVICE_ID, &AxisSwitch0, 0, 0); //stream
 				clear_vdma_0();
 				xil_printf("------------switch to lvds_stream-----------\r\n");
 			}
