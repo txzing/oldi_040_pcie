@@ -33,9 +33,39 @@
 #ifndef __PLATFORM_H_
 #define __PLATFORM_H_
 
-#include "platform_config.h"
+void init_platform(void);
+void cleanup_platform(void);
 
-void init_platform();
-void cleanup_platform();
+#if defined (UDP_UPDATE) || defined (TCP_UPDATE) || defined (TCP_COMMAND_SRV) || defined (UDP_COMMAND_SRV)
+#if defined (__MICROBLAZE__)
+void timer_callback();
+#endif // #if defined (__MICROBLAZE__)
+#endif // #if defined (UDP_UPDATE) || defined (TCP_UPDATE) || defined (TCP_COMMAND_SRV) || defined (UDP_COMMAND_SRV)
 
+#if defined(MODBUS_RTU_SLAVE)
+#if defined (__MICROBLAZE__)
+void Timer1Handler(void *CallBackRef, u8 TmrCtrNumber);
+#endif // #if defined (__MICROBLAZE__)
+
+#if defined (PLATFORM_ZYNQ)
+void Timer0Handler(void *CallBackRef, u8 TmrCtrNumber);
+#endif // #if defined (PLATFORM_ZYNQ)
+
+#if defined (PLATFORM_ZYNQMP)
+void Timer0Handler(void *CallBackRef, u8 TmrCtrNumber);
+#endif // #if defined (PLATFORM_ZYNQMP)
+
+#endif // MODBUS_RTU_SLAVE
+
+#if defined (ARMR5) || (__aarch64__) || (__arm__)
+uint64_t get_time_ms(void);
+float get_time_s(void);
+#endif // #if defined (ARMR5) || (__aarch64__) || (__arm__)
+
+
+#if defined (INTC_DEVICE_ID) || defined (INTC)
+int platform_setup_interrupts(void);
+void platform_enable_interrupts(void);
 #endif
+
+#endif // __PLATFORM_H_

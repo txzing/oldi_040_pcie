@@ -13,8 +13,8 @@
 #set arch 32-bit
 #set processor_name psu_cortexa53_0
 #set processor_name ps7_cortexa9_0
-set processor_name microblaze_0
-#set processor_name processor_subsystem_microblaze_0
+#set processor_name microblaze_0
+set processor_name processor_subsystem_microblaze_0
 #set build_type system
 set build_type app
 set src_link hard
@@ -29,7 +29,7 @@ set hardware_path ./xsa
 #set project_name1 hello1
 #set project_name2 hello2
 set project_name vitis_proj
-#set bootloader_name fsbl
+set bootloader_name fsbl
 set domain_name ${os_name}_domain
 set platform_name system_wrapper
 #set xsa_name system_wrapper.xsa
@@ -120,12 +120,12 @@ bsp regenerate
 #bsp config stdout psu_uart_1
 
 domain active ${domain_name}
-bsp config stdin axi_uartlite_0
-bsp config stdout axi_uartlite_0
-#bsp config stdin processer_ss_axi_uartlite_0
-#bsp config stdout processer_ss_axi_uartlite_0
-#bsp config stdin processor_subsystem_axi_uartlite_0
-#bsp config stdout processor_subsystem_axi_uartlite_0
+#bsp config stdin axi_uartlite_0
+#bsp config stdout axi_uartlite_0
+#bsp config stdin axi_uartlite_1
+#bsp config stdout axi_uartlite_1
+bsp config stdin processor_subsystem_axi_uartlite_0
+bsp config stdout processor_subsystem_axi_uartlite_0
 
 #bsp listparams -os
 #bsp listparams -proc
@@ -135,7 +135,7 @@ bsp config stdout axi_uartlite_0
 #bsp setlib -name lwip211 -ver 1.3
 #bsp setlib -name lwip211
 #bsp listparams -lib lwip211
-#bsp config mem_size 134217728
+#bsp config mem_size 33554432
 #bsp config memp_n_pbuf 4096
 #bsp config memp_n_tcp_pcb 1024
 #bsp config memp_n_tcp_seg 1024
@@ -204,7 +204,7 @@ app create -name ${project_name} -platform ${platform_name} -domain ${domain_nam
 #app config -name ${bootloader1_name} define-compiler-symbols FSBL_DEBUG
 #app config -name ${bootloader2_name} define-compiler-symbols FSBL_DEBUG
 #app config -name ${project_name} -add libraries m
-app config -name ${project_name} -set linker-misc {-Wl,-Map,${ProjName}.map}
+app config -name ${project_name} -add linker-misc {-Wl,-Map,${ProjName}.map}
 
 #importe the app src files
 puts "importe the app src files"
