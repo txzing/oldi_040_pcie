@@ -75,15 +75,16 @@ int main()
 
 
 #if defined (XPAR_XAXIVDMA_NUM_INSTANCES)
-//    clear_display();
-    vdma_config_0();
+    clear_display();
+//    vdma_config_0();
 #endif // XPAR_XAXIVDMA_NUM_INSTANCES
 
 #if defined (SER_CFG) || defined (DES_CFG)
 	usleep(10*1000);
 	ret32 = xgpio_i2c_reg16_write(I2C_NO_1, 0x2A, 0x0002, 0x53, STRETCH_ON);
 	ret32 = xgpio_i2c_reg16_write(I2C_NO_1, 0x2A, 0x0002, 0x53, STRETCH_ON);
-
+	serdes_i2c_write_16(I2C_NO_1, 0x54, 0x0050, 0x01);
+	serdes_i2c_write_array_16(I2C_NO_1, max96752_oldi);
 #endif // SER_CFG || DES_CFG
 
 #if defined (UDP_UPDATE) || defined (TCP_UPDATE) || defined (TCP_COMMAND_SRV) || defined (UDP_COMMAND_SRV)

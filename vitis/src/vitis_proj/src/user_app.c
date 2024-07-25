@@ -18,6 +18,9 @@ u8 wave_flag;
 u8 fresh_cnt = 0;
 u8 state_cnt = 0;
 
+
+
+
 void app_info(void)
 {
 
@@ -38,7 +41,7 @@ void app_info(void)
 void video_resolution_print(char *info,u32 baseaddr)
 {
 	xil_printf("-%s freq: %d -\r\n", info, Xil_In32(baseaddr + 0x8));
-	xil_printf("-%s res: %dx%d -\r\n", info, Xil_In32(baseaddr + 0x8), Xil_In32(baseaddr + 0x4));
+	xil_printf("-%s res: %dx%d -\r\n", info, Xil_In32(baseaddr + 0x0), Xil_In32(baseaddr + 0x4));
 }
 
 void uart_receive_process(void)
@@ -83,6 +86,12 @@ void uart_receive_process(void)
 			xil_printf("0x0108 = %x\r\n",ret8);
 			xgpio_i2c_reg16_read(I2C_NO_1, 0x2A, 0x0003, &ret8, STRETCH_ON);
 			xil_printf("0x0003 = %x\r\n",ret8);
+		}
+		else if((UserInput == 'g') || (UserInput == 'G'))
+		{
+			xil_printf("------------config max96752------------\r\n");
+			serdes_i2c_write_16(I2C_NO_1, 0x54, 0x0050, 0x01);
+			serdes_i2c_write_array_16(I2C_NO_1, max96752_oldi);
 		}
 #if 1
 		else if((UserInput == 's') || (UserInput == 'S'))

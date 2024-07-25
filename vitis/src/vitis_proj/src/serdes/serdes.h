@@ -31,6 +31,9 @@ int serdes_i2c_write_16(i2c_no i2c, u8 addr, u16 reg, u8 data);
 void serdes_i2c_write_array_16(i2c_no i2c, struct reginfo *regarray);
 
 
+
+extern struct reginfo max96752_oldi[];
+
 #endif // SER_CFG || DES_CFG
 
 #endif // __XGPIO_I2C_H__

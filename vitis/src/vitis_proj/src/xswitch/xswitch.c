@@ -80,7 +80,7 @@ int axis_switch_cfg(void)
     int Status;
 
 #if (XPAR_XAXIS_SWITCH_NUM_INSTANCES >= 1U)
-    Status = AxisSwitch(XPAR_AXIS_SWITCH_0_DEVICE_ID, &AxisSwitch0, 1, 0); //
+    Status = AxisSwitch(XPAR_AXIS_SWITCH_0_DEVICE_ID, &AxisSwitch0, 0, 0); //
     if (Status != XST_SUCCESS)
 	{
 //		Xil_Assert(__FILE__, __LINE__);
