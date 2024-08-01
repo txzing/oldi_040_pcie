@@ -6,27 +6,17 @@ u32 ret32;
 u8 ret8;
 u8 UserInput;
 u8 cerrent_ch;
-u8 i2c_device_addr_984;
-u8 fake_984_i2c_addr;
-u8 lock_984;
-u8 lock_988;
+u8 lock_status;
+u8 reconfig_flag;
 u8 clear_flag;
-u8 reconfig_flag_984;
 u8 wave_flag;
 
-
-u8 fresh_cnt = 0;
-u8 state_cnt = 0;
-
-
-
+u8 key_flag = 0;
 
 void app_info(void)
 {
-
-	xil_printf("\r\nstart\r\n");
-	xil_printf("\r\n");
 	xil_printf("----------------------\r\n");
+	xil_printf("\r\n%s, UTC %s\r\n",__DATE__,__TIME__);
 	xil_printf("----------------------\r\n");
 	print("input :\n\r");
 	xil_printf("d - detect info\r\n");
@@ -52,7 +42,6 @@ void uart_receive_process(void)
 		UserInput = XUartLite_RecvByte(UARTLITE_BASEADDR);
 		if((UserInput == 'm') || (UserInput == 'M'))
 		{
-
 			app_info();
 		}
 		else if((UserInput == 'd') || (UserInput == 'D'))
@@ -64,6 +53,23 @@ void uart_receive_process(void)
 			video_resolution_print("vdma in",XPAR_MEMORY_SUBSYSTEM_AXIS_PASSTHROUGH_MON_0_S00_AXI_BASEADDR);
 			xil_printf("------------------------\r\n");
 		}
+		else if((UserInput == 'k') || (UserInput == 'K'))
+		{
+			xil_printf("\r\n------------k_flag------------\r\n");
+			key_flag = !key_flag;
+		}
+
+		else if((UserInput == '7'))
+		{
+			xil_printf("\r\n------------vdma_write_stop------------\r\n");
+			vdma_write_stop(&Vdma0);
+		}
+		else if((UserInput == '8'))
+		{
+			xil_printf("\r\n------------vdma_write_start------------\r\n");
+			vdma_write_start(&Vdma0);
+		}
+
 		else if((UserInput == 'c') || (UserInput == 'C'))
 		{
 
@@ -105,14 +111,14 @@ void uart_receive_process(void)
 			xil_printf("------------------------\r\n");
 			if(UserInput == '0')
 			{
-			    AxisSwitch(XPAR_AXIS_SWITCH_0_DEVICE_ID, &AxisSwitch0, 1, 0); //TPG
-			    xil_printf("------------switch to TPG-----------\r\n");
-			}
-			else if(UserInput == '1')
-			{
 				AxisSwitch(XPAR_AXIS_SWITCH_0_DEVICE_ID, &AxisSwitch0, 0, 0); //stream
 				clear_vdma_0();
 				xil_printf("------------switch to lvds_stream-----------\r\n");
+			}
+			else if(UserInput == '1')
+			{
+			    AxisSwitch(XPAR_AXIS_SWITCH_0_DEVICE_ID, &AxisSwitch0, 1, 0); //TPG
+			    xil_printf("------------switch to TPG-----------\r\n");
 			}
 			else
 			{
@@ -127,4 +133,105 @@ void uart_receive_process(void)
 
 	}
 }
+
+void max96752_lock_detect(u8 ch)
+{
+
+	u8 reg_0x01d2 = 0;
+	u8 reg_0x0003 = 0;
+	u8 reg_0x0013 = 0;
+	u8 reg_0x0108 = 0;
+	ret8 = 0;
+	xgpio_i2c_reg16_read(ch, 0x2A, 0x01d2, &ret8, STRETCH_ON);
+	reg_0x01d2 = ret8;
+	xgpio_i2c_reg16_read(ch, 0x2A, 0x0003, &ret8, STRETCH_ON);
+	reg_0x0003 = ret8;
+	xgpio_i2c_reg16_read(ch, 0x2A, 0x0013, &ret8, STRETCH_ON);
+	reg_0x0013 = ret8;
+	xgpio_i2c_reg16_read(ch, 0x2A, 0x0108, &ret8, STRETCH_ON);
+	reg_0x0108 = ret8;
+
+
+	if(reg_0x01d2 == 0x22 && reg_0x0003 == 0x31 && reg_0x0013 == 0xDA && reg_0x0108 == 0x62)
+	{
+		ret8 = 0;
+		usleep(1*1000);
+		xgpio_i2c_reg16_read(ch, 0x2A, 0x01d2, &ret8, STRETCH_ON);
+		reg_0x01d2 = ret8;
+		xgpio_i2c_reg16_read(ch, 0x2A, 0x0003, &ret8, STRETCH_ON);
+		reg_0x0003 = ret8;
+		xgpio_i2c_reg16_read(ch, 0x2A, 0x0013, &ret8, STRETCH_ON);
+		reg_0x0013 = ret8;
+		xgpio_i2c_reg16_read(ch, 0x2A, 0x0108, &ret8, STRETCH_ON);
+		reg_0x0108 = ret8;
+		if(reg_0x01d2 == 0x22 && reg_0x0003 == 0x31 && reg_0x0013 == 0xDA && reg_0x0108 == 0x62)
+		{
+//			xil_printf("\r\n lock_status \r\n");
+			lock_status = 1;
+		}
+		else
+		{
+	//		xil_printf("\r\n no lock_status !!!\r\n");
+			lock_status = 0;
+		}
+	}
+	else
+	{
+//		xil_printf("\r\n no lock_status !!!\r\n");
+		lock_status = 0;
+	}
+}
+
+void display_fresh(void)
+{
+	if(timer_cnt >= 1)//200ms
+	{
+		timer_cnt = 0;
+		max96752_lock_detect(I2C_NO_1);
+
+		if(lock_status == 1)
+		{
+			clear_flag = 0;
+			if(reconfig_flag == 0)
+			{
+				reconfig_flag = 1;
+			}
+			else
+			{
+//				reconfig_flag = 2;
+			}
+
+		}
+		else
+		{
+
+			reconfig_flag = 0;
+			if(clear_flag == 0)
+			{
+				clear_flag = 1;
+			}
+			else
+			{
+//				clear_flag = 2;
+			}
+
+		}
+
+			if(reconfig_flag == 1)
+			{
+				serdes_i2c_write_16(I2C_NO_1, 0x54, 0x0050, 0x01);
+				serdes_i2c_write_array_16(I2C_NO_1, max96752_oldi);
+				reconfig_flag = 2;
+			}
+
+
+			if(clear_flag == 1)
+			{
+				clear_vdma_0();
+				clear_flag = 2;
+			}
+	}
+
+}
+
 

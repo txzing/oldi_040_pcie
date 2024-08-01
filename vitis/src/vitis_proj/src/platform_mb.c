@@ -220,7 +220,7 @@ void init_platform(void)
 {
     enable_caches();
 #if defined (INTC_DEVICE_ID) || defined (INTC)
-//	platform_setup_interrupts();
+	platform_setup_interrupts();
 #endif // #if defined (INTC_DEVICE_ID) || defined (INTC)
 
 }

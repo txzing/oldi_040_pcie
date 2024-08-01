@@ -12,7 +12,7 @@ extern u32 ret32;
 extern u8 ret8;
 
 extern u8 cerrent_ch;
-
+extern u8 key_flag;
 
 
 void app_info(void);

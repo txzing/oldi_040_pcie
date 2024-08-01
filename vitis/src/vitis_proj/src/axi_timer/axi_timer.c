@@ -2,15 +2,6 @@
 
 #if defined (XPAR_XTMRCTR_NUM_INSTANCES)
 
-//extern INTC InterruptController;  /* The instance of the Interrupt Controller */
-//XTmrCtr TimerCounterInst;   /* The instance of the Timer Counter */
-////extern volatile u16 adc;
-////extern uint8_t g_adc_trigger;
-//volatile uint8_t g_tmr0_trigger;
-//extern uint8_t g_mods_timeout;
-
-
-
 #if (XPAR_XTMRCTR_NUM_INSTANCES >= 1U)
 XTmrCtr axi_timer0;
 #endif // (XPAR_XTMRCTR_NUM_INSTANCES >= 1U)
@@ -30,7 +21,7 @@ XTmrCtr axi_timer3;
 
 volatile u8 timer_cnt;
 u8 wave_flag;
-#if 0
+#if 1
 void timer_intr_hander(void *InstancePtr) //
 {
     //
@@ -61,15 +52,15 @@ void timer_intr_hander(void *InstancePtr) //
 }
 
 
-#define US (XPAR_TMRCTR_2_CLOCK_FREQ_HZ / 1000000)
+#define US (XPAR_TMRCTR_0_CLOCK_FREQ_HZ / 1000000)
 #define MS (1000*US)
-#define TIMER_TLR  50*MS
+#define TIMER_TLR  200*MS
 int lock_timer_init(void)
 {
 	int Status;
 	XIntc *IntcInstPtr = &InterruptController;
 	/***********************************************************/
-	XTmrCtr_Initialize(&axi_timer0, XPAR_TMRCTR_2_DEVICE_ID);
+	XTmrCtr_Initialize(&axi_timer0, XPAR_TMRCTR_0_DEVICE_ID);
 	/*
 	 * Perform a self-test to ensure that the hardware was built
 	 * correctly, use the 1st timer in the device (0)
@@ -106,7 +97,7 @@ int lock_timer_init(void)
 
 	XTmrCtr_SetHandler(&axi_timer0, timer_intr_hander, &axi_timer0);
 
-	Status = XIntc_Connect(IntcInstPtr, XPAR_INTC_0_TMRCTR_2_VEC_ID,
+	Status = XIntc_Connect(IntcInstPtr, XPAR_INTC_0_TMRCTR_0_VEC_ID,
 				(XInterruptHandler)XTmrCtr_InterruptHandler,
 				&axi_timer0);
 	if (Status != XST_SUCCESS)
@@ -114,7 +105,7 @@ int lock_timer_init(void)
 		xil_printf("ERR: lock_timer_init Timer interrupt connect failed!\n\r");
 		return XST_FAILURE;
 	}
-	XIntc_Enable(IntcInstPtr, XPAR_INTC_0_TMRCTR_2_VEC_ID);
+	XIntc_Enable(IntcInstPtr, XPAR_INTC_0_TMRCTR_0_VEC_ID);
 
 	// Don't forget start timer in proper place
 	XTmrCtr_Start(&axi_timer0, TIMER_CNTR_0);

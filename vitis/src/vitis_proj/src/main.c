@@ -8,8 +8,8 @@ volatile u32 __HW_VER__;
 int main()
 {
 	int Status ;
-	cerrent_ch = 1;//default A
-//	timer_cnt = 0;
+	cerrent_ch = 1;//default
+	timer_cnt = 0;
 
     init_platform(); // include interrupts setup
 
@@ -73,10 +73,27 @@ int main()
 	}
 #endif // XPAR_XV_TPG_NUM_INSTANCES
 
+#if defined (XPAR_XTMRCTR_NUM_INSTANCES)
+	Status = lock_timer_init();
+	if (Status != XST_SUCCESS)
+	{
+		bsp_printf(TXT_RED "\r\n__FILE__:%s, __LINE__:%d\r\n" TXT_RST,__FILE__, __LINE__);
+		Xil_Assert(__FILE__, __LINE__);
+		return XST_FAILURE ;
+	}
+#endif
 
 #if defined (XPAR_XAXIVDMA_NUM_INSTANCES)
     clear_display();
 //    vdma_config_0();
+    Status = vdma_init(XPAR_AXIVDMA_0_DEVICE_ID,&Vdma0);
+	if (Status != XST_SUCCESS)
+	{
+		bsp_printf(TXT_RED "\r\n__FILE__:%s, __LINE__:%d\r\n" TXT_RST,__FILE__, __LINE__);
+		Xil_Assert(__FILE__, __LINE__);
+		return XST_FAILURE ;
+	}
+	vdma_write_stop(&Vdma0);
 #endif // XPAR_XAXIVDMA_NUM_INSTANCES
 
 #if defined (SER_CFG) || defined (DES_CFG)
@@ -92,11 +109,13 @@ int main()
 #endif // #if defined (UDP_UPDATE) || defined (TCP_UPDATE) || defined (TCP_COMMAND_SRV) || defined (UDP_COMMAND_SRV)
 
 #if defined (INTC_DEVICE_ID) || defined (INTC)
-//	platform_enable_interrupts();
+	platform_enable_interrupts();
 #endif //#if defined (INTC_DEVICE_ID) || defined (INTC)
 
 	app_info();
 
+//	int index;
+	xil_printf("\r\nstart\r\n");
     while(1)
     {
 #if defined (UDP_UPDATE) || defined (TCP_UPDATE) || defined (TCP_COMMAND_SRV) || defined (UDP_COMMAND_SRV)
@@ -104,6 +123,14 @@ int main()
 #endif // #if defined (UDP_UPDATE) || defined (TCP_UPDATE) || defined (TCP_COMMAND_SRV) || defined (UDP_COMMAND_SRV)
 
     	uart_receive_process();
+    	display_fresh();
+
+//		if((WriteOneFrameEnd >= 0) && key_flag)
+//		{
+//			index = WriteOneFrameEnd;
+////			xil_printf("main index = %d\r\n",index);
+//			WriteOneFrameEnd = -1;
+//		}
 
     }
 
