@@ -24,6 +24,7 @@ public Q_SLOTS:
     void startCapture(void);
     void changeWindows(int);
     void timeDelay();
+    void fps_timer_func();
     void flushFps(int speed);
 
 private slots:
@@ -43,6 +44,7 @@ private:
     xdma_getImg *pXdmaGetImg;
     QLabel *pPlayState;
     QTimer *pTimer;
+    QTimer *fps_timer;
     bool isPressed;
     bool isRelease;
     QString titleName;

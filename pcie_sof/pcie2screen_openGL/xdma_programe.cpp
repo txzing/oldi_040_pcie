@@ -411,3 +411,17 @@ void xdma_programe::axis_switch(unsigned char SiIndex, unsigned char MiIndex)
     Xil_Out32((axis_switch_baseaddr + 0x000), (Xil_In32((axis_switch_baseaddr + 0x000)) | (0x02)));
 
 }
+
+void xdma_programe::axis_passthrouth_mon(unsigned int * W_size, unsigned int * H_size, unsigned int * fps)
+{
+    unsigned int ret32;
+    unsigned int axis_passthrouth_mon_baseaddr = 0x04A10000;
+
+    ret32 = Xil_In32(axis_passthrouth_mon_baseaddr + 0x0);
+    *W_size = ret32;
+    ret32 = Xil_In32(axis_passthrouth_mon_baseaddr + 0x4);
+    *H_size = ret32;
+    ret32 = Xil_In32(axis_passthrouth_mon_baseaddr + 0x8);
+    *fps = ret32;
+
+}

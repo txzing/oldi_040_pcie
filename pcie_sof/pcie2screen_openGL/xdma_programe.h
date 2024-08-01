@@ -38,7 +38,7 @@ public:
     void vdma_stop(void);
     void vdma_StartParking(int FrameIndex);
     void axis_switch(unsigned char SiIndex, unsigned char MiIndex);
-
+    void axis_passthrouth_mon(unsigned int * W_size, unsigned int * H_size, unsigned int * fps);
 
 private:
     HANDLE c2h0_fd;

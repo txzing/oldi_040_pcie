@@ -52,6 +52,8 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(ui->openGLWidget, SIGNAL(mouseDoubleClickNotice(int)), this, SLOT(changeWindows(int)));
     QObject::connect(ui->openGLWidget, SIGNAL(flushFps(int)), this, SLOT(flushFps(int)));
     QObject::connect(pTimer, SIGNAL(timeout()), this, SLOT(timeDelay()));
+    // fps_timer = new QTimer;
+    // QObject::connect(fps_timer, SIGNAL(timeout()), this, SLOT(fps_timer_func()));
     resize(640, 480);
     isPressed = false;
     isRelease = false;
@@ -74,14 +76,15 @@ void MainWindow::startCapture()
     if(pPlayState->isVisible())
     {
         pPlayState->hide();
-        pXdmaGetImg->clear_display();
         pXdmaGetImg->setstart(true);
+        // fps_timer->start(1000);
     }
     else
     {
         pPlayState->show();
         setWindowTitle(titleName);
         pXdmaGetImg->setstart(false);
+        // fps_timer->stop();
     }
 }
 
@@ -95,7 +98,7 @@ void MainWindow::changeWindows(int index)
         isPressed = true;
         break;
     case 1:
-        pTimer->start(400);
+        pTimer->start(200);
         isRelease = true;
         break;
     case 2:
@@ -143,9 +146,35 @@ void MainWindow::timeDelay()
     pTimer->stop();
 }
 
+void MainWindow::fps_timer_func()
+{
+    // unsigned int W_size, H_size, fps;
+    // pXdmaGetImg->axis_passthrouth_mon(&W_size, &H_size, &fps);
+    // // // qDebug("- freq: %d -\r\n", fps);
+    // // // qDebug("- res: %dx%d -\r\n", W_size, H_size);
+
+    // if(fps < 40)
+    // {
+    //     if(ui->comboBox_video_source->currentIndex() == 0)
+    //     {
+    //         QMessageBox::information(this, "waring", "There is no external input video stream, please check the connection!!!", NULL);
+    //         pPlayState->show();
+    //         pXdmaGetImg->setstart(false);
+    //         fps_timer->stop();
+    //         memset(ui->openGLWidget->pRGB, 0xff, pXdmaGetImg->W_size*pXdmaGetImg->H_size*3);
+    //         ui->openGLWidget->update();
+    //     }
+    // }
+    // else
+    // {
+    //     pPlayState->hide();
+    // }
+
+}
+
 void MainWindow::flushFps(int speed)
 {
-    qDebug("fps:%02d.%02d", speed/100, speed%100);
+    // qDebug("fps:%02d.%02d", speed/100, speed%100);
 
 }
 
@@ -208,6 +237,7 @@ void MainWindow::on_comboBox_currentIndexChanged(int index)
 
     }
     pXdmaGetImg->setstart(true);
+
 }
 
 void MainWindow::on_comboBox_video_source_currentIndexChanged(int index)
@@ -215,11 +245,9 @@ void MainWindow::on_comboBox_video_source_currentIndexChanged(int index)
     QString text = ui->comboBox_video_source->currentText();
     QMessageBox::information(this, "video_source", "your select video_source is " + text, NULL);
     if(index == 0)
-    {
-
+    { 
         pXdmaGetImg->video_stream_switch(0,0);
         pXdmaGetImg->clear_display();
-
     }
     else if(index == 1)
     {

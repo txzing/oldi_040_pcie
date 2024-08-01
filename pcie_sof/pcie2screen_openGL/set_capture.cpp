@@ -31,7 +31,7 @@ xdma_getImg::xdma_getImg(xdma_programe *pXdma, unsigned char *pRGB, pthread_mute
     this->pOptNotice = pOptNotice;
     this->W_size = 1920;
     this->H_size = 1080;
-    this->stride = 1080;
+    this->stride = 1920;
     IMG_RAM_POS[0] = FRAME_BUFFER_1;
     IMG_RAM_POS[1] = FRAME_BUFFER_2;
     IMG_RAM_POS[2] = FRAME_BUFFER_3;
@@ -39,7 +39,6 @@ xdma_getImg::xdma_getImg(xdma_programe *pXdma, unsigned char *pRGB, pthread_mute
     // pcie_c2h_event0.pXdma = this->pXdma;
     // pcie_c2h_event0.start();
     video_stream_switch(0,0);
-    clear_display();
     start();
 }
 
@@ -112,6 +111,11 @@ void xdma_getImg::run()
                 }
                 WriteOneFrameEnd = -1;
             }
+            else
+            {
+                memset(pRGB, 0xff, W_size*H_size*3);
+                emit flushImg();
+            }
         }
         else
         {
@@ -130,7 +134,6 @@ void xdma_getImg::setstart(bool isRuning)
     {
         clear_display();
         pXdma->vdma_start(W_size,H_size,stride);
-
     }
     else
     {
@@ -153,4 +156,9 @@ void xdma_getImg::clear_display(void)
 void xdma_getImg::video_stream_switch(unsigned char SiIndex, unsigned char MiIndex)
 {
     pXdma->axis_switch(SiIndex,MiIndex);
+}
+
+void xdma_getImg::axis_passthrouth_mon(unsigned int * W_size, unsigned int * H_size, unsigned int * fps)
+{
+    pXdma->axis_passthrouth_mon(W_size, H_size, fps);
 }

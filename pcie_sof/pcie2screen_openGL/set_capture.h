@@ -19,6 +19,7 @@ public:
 
     void clear_display(void);
     void video_stream_switch(unsigned char SiIndex, unsigned char MiIndex);
+    void axis_passthrouth_mon(unsigned int * W_size, unsigned int * H_size, unsigned int * fps);
 
 Q_SIGNALS:
     void flushImg();
@@ -36,7 +37,6 @@ private:
      */
     int WriteOneFrameEnd = -1;
     long IMG_RAM_POS[3];
-
 };
 
 
