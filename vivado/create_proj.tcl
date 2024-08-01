@@ -25,6 +25,8 @@ if {[string equal [get_filesets -quiet sources_1] ""]} {
 #add_files -fileset sources_1 -norecurse ./hdl/clk_94m.xcix
 #add_files -fileset sources_1 -norecurse ./hdl/clk_pixel.xcix
 #add_files -fileset sources_1 -norecurse ./hdl/ip/mig_7series_0/mig_7series_0.xci
+add_files -fileset sources_1 -norecurse ./hdl/pcie_irq_deal.v
+
 
 # Create 'constrs_1' fileset (if not found)
 if {[string equal [get_filesets -quiet constrs_1] ""]} {

@@ -5,7 +5,7 @@
 #if defined (TCP_UPDATE)
 #define __TCP_UPDATE_H__
 
-#define TCP_UPDATE_SVR_SEND_MSG	(0U)		// 1 - enable, 0 - disable
+#define TCP_UPDATE_SVR_SEND_MSG	(1U)		// 1 - enable, 0 - disable
 
 #define TCP_UPDATE_SVR_PORT            (6789)
 

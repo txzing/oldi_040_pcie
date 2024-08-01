@@ -104,20 +104,20 @@ u32 GetSoftWareVersion(void)
 
 	RTC_TIME_DEF software_time;
 	software_time = GetSoftWareBuildTargetTime();
-//  printf("Year = %d\n",software_time.nYear);
+//	printf("Year = %d\n",software_time.nYear);
 //	printf("Day = %d\n",software_time.nDay);
 //	printf("Month = %d\n",software_time.nMonth);
 //	printf("Hour = %d\n",software_time.nHour);
 //	printf("Minute = %d\n",software_time.nMinute);
 //	printf("Second = %d\n",software_time.nSecond);
-
-
-// printf("hex_Year = %x\n",ByteToBcd2(software_time.nYear - 2000));
-// printf("hex_Day = %x\n",ByteToBcd2(software_time.nDay));
-// printf("hex_Month = %x\n",ByteToBcd2(software_time.nMonth));
-// printf("hex_Hour = %x\n",ByteToBcd2(software_time.nHour));
-// printf("hex_Minute = %x\n",ByteToBcd2(software_time.nMinute));
-// printf("hex_Second = %x\n",ByteToBcd2(software_time.nSecond));
+//
+//
+//	printf("hex_Year = %x\n",ByteToBcd2(software_time.nYear - 2000));
+//	printf("hex_Day = %x\n",ByteToBcd2(software_time.nDay));
+//	printf("hex_Month = %x\n",ByteToBcd2(software_time.nMonth));
+//	printf("hex_Hour = %x\n",ByteToBcd2(software_time.nHour));
+//	printf("hex_Minute = %x\n",ByteToBcd2(software_time.nMinute));
+//	printf("hex_Second = %x\n",ByteToBcd2(software_time.nSecond));
 
 	b1 = ByteToBcd2(software_time.nYear - 2000);
 	b2 = ByteToBcd2(software_time.nMonth);

@@ -1,13 +1,13 @@
-#ifndef __MODBUS_SLAVE_H_
+#ifndef __MODBUY_SLAVE_H_
+#include "../config.h"
 #if defined (MODBUS_RTU_SLAVE)
-#if !defined (__RS485_H__)
-#error "No rs485 heir in design"
-#endif
 
-#define __MODBUS_SLAVE_H_
-#include "util_lib.h"
+#define __MODBUY_SLAVE_H_
+
+#include "util_lib/util_lib.h"
+
 #define SADDR485	1
-#define SBAUD485	XPAR_UARTLITE_0_BAUDRATE
+#define SBAUD485	XPAR_AXI_UARTLITE_0_BAUDRATE
 
 /* 01H 读强制单线圈 */
 /* 05H 写强制单线圈 */
@@ -28,9 +28,11 @@
 /* 10H 写多个保存寄存器 */
 //#define SLAVE_REG_P01		0x0301
 //#define SLAVE_REG_P02		0x0302
-#define SLAVE_REG_P00		0x0000	// 预留用于从机地址读写
-#define SLAVE_REG_P01		0x0001	// 这里实现一个保持寄存器作为示例
-//#define SLAVE_REG_P02		0x0002	// 自行扩展
+#define SLAVE_REG_P00       0x0000
+#define SLAVE_REG_P01		0x0001
+#define SLAVE_REG_P02		0x0002
+#define SLAVE_REG_P03		0x0003
+#define SLAVE_REG_P04       0x0004
 
 /* 04H 读取输入寄存器(模拟信号) */
 //#define REG_A01		0x0401
@@ -64,6 +66,7 @@ typedef struct
 typedef struct
 {
 	/* 03H 06H 读写保持寄存器 */
+	uint16_t P00;
 	uint16_t P01;
 	//uint16_t P02;
 
@@ -78,11 +81,12 @@ typedef struct
 
 }VAR_T;
 
-extern volatile uint8_t g_mods_timeout;
+volatile uint8_t g_mods_timeout;
+
 void MODS_Poll(void);
-void MODS_VarInit(void);
+
 extern MODS_T g_tModS;
 extern VAR_T g_tVar;
 
-#endif // MODBUS_RTU_SLAVE
-#endif // __MODBUS_SLAVE_H_
+#endif // #if defined (MODBUS_RTU_SLAVE)
+#endif // __MODBUY_SLAVE_H_

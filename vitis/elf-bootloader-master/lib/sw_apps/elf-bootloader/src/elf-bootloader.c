@@ -58,11 +58,18 @@ void _hw_exception_handler() {}
 #endif
 
 #if !defined (QFLASH_LE_16MB)
-void FlashEnterExit4BAddMode(XSpi *QspiPtr)
+void FlashEnterExit4BAddMode(XSpi *QspiPtr, unsigned int Enable)
 {
 	u8 WriteDisableCmd = { WRITE_DISABLE_CMD };
 	u8 WriteEnableCmd = { WRITE_ENABLE_CMD };
 	u8 Cmd = { ENTER_4B_ADDR_MODE };
+
+	if(Enable) {
+		Cmd = ENTER_4B_ADDR_MODE;
+	} else {
+		Cmd = EXIT_4B_ADDR_MODE;
+	}
+
 	XSpi_Transfer(QspiPtr, &WriteEnableCmd, NULL, sizeof(WriteEnableCmd));
 	XSpi_Transfer(QspiPtr, &Cmd, NULL, sizeof(Cmd));
 	XSpi_Transfer(QspiPtr, &WriteDisableCmd, NULL, sizeof(WriteDisableCmd));
@@ -86,9 +93,6 @@ int spi_flash_read(XSpi *InstancePtr, u32 FlashAddress, u8 *RecvBuffer, unsigned
 	RecvBuffer[3] = (FlashAddress >> 8) & 0xFF;
 	RecvBuffer[4] = FlashAddress & 0xFF;
 #endif // 	
-#if defined (QFLASH_LE_16MB)
-		FlashEnterExit4BAddMode(&Spi);
-#endif // #if defined (QFLASH_LE_16MB)
 
 	return XSpi_Transfer(InstancePtr, RecvBuffer, RecvBuffer, ByteCount + SPI_VALID_DATA_OFFSET);
 }
@@ -140,6 +144,8 @@ int main()
 //	xgpio_init();
 	usleep(100000);
 	print("\r\nSPI ELF Bootloader\r\n");
+	xil_printf("\r\n%s, UTC %s\r\n",__DATE__,__TIME__);
+	xil_printf(TXT_RED "\r\n__FILE__:%s, __LINE__:%d\r\n" TXT_RST,__FILE__, __LINE__);
 #endif
 
 	/*
@@ -218,7 +224,7 @@ int main()
 #endif
 
 #if !defined (QFLASH_LE_16MB)
-    FlashEnterExit4BAddMode(&Spi);
+    FlashEnterExit4BAddMode(&Spi, 1);
 #endif // #if !defined (QFLASH_LE_16MB)
 
 	usleep(100*1000);
@@ -276,6 +282,11 @@ int main()
 #ifdef VERBOSE
 		print("Invalid ELF header");
 #endif
+
+#if !defined (QFLASH_LE_16MB)
+		FlashEnterExit4BAddMode(&Spi, 0);
+#endif // #if !defined (QFLASH_LE_16MB)
+
 		return -1;
 	}
 

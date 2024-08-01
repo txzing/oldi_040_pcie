@@ -5,10 +5,6 @@
 
 static struct udp_pcb *client_pcb = NULL;
 
-static u8 rxbuffer[MAX_FLASH_LEN];
-static u32 total_bytes = 0;
-static int start_update_flag = 0 ;
-
 
 void print_udp_update_header(void)
 {
@@ -94,37 +90,6 @@ void udp_update_process_print(u8 percent)
  * @param port is udp port
  *
  */
-//void udp_recv_callback(void *arg, struct udp_pcb *pcb, struct pbuf *p_rx,
-//		const ip_addr_t *ip, u16_t port) {
-//
-//	char *pData;
-//	pcb->remote_ip = *ip;
-//	pcb->remote_port = port;
-//	client_pcb = pcb;
-//
-//	if (p_rx != NULL)
-//	{
-//		pData = (char *) p_rx->payload;
-//
-//		int udp_len = p_rx->len ;
-//
-//		if (!(memcmp("update", p_rx->payload + p_rx->len - 6, 6)))
-//		{
-//			memcpy(&FlashRxBuffer[ReceivedCount], pData, udp_len - 6);
-//			ReceivedCount += udp_len - 6 ;
-//			bsp_printf("Received Size is %u Bytes\r\n", ReceivedCount) ;
-//			bsp_printf("Initialization done, programming the memory\r\n") ;
-//			start_update_flag = 1 ;
-//		}
-//		else
-//		{
-//			memcpy(&FlashRxBuffer[ReceivedCount], pData, udp_len);
-//			ReceivedCount += udp_len ;
-//		}
-//
-//		pbuf_free(p_rx);
-//	}
-//}
 void udp_update_recv_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p,
 		const ip_addr_t *ip, u16_t port)
 {
@@ -134,29 +99,39 @@ void udp_update_recv_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p,
     upcb->remote_port = port;
     client_pcb = upcb;
 
-    if (q->tot_len == 6 && !(memcmp("update", p->payload, 6))) {
+    if (q->tot_len == 6 && !(memcmp("update", p->payload, 6)))
+    {
         start_update_flag = 1;
         udp_update_svr_send_msg("Start QSPI Update\r\n");
-    } else if (q->tot_len == 5 && !(memcmp("clear", p->payload, 5))) {
+    }
+    else if (q->tot_len == 5 && !(memcmp("clear", p->payload, 5)))
+    {
         start_update_flag = 0;
         total_bytes = 0;
         udp_update_svr_send_msg("Clear received data\r\n");
         bsp_printf("Clear received data\r\n");
-    } else {
-        while (q->tot_len != q->len) {
+    }
+    else
+    {
+        while (q->tot_len != q->len)
+        {
             memcpy(&rxbuffer[total_bytes], q->payload, q->len);
             total_bytes += q->len;
             q = q->next;
         }
         memcpy(&rxbuffer[total_bytes], q->payload, q->len);
         total_bytes += q->len;
+
+//receice data_byte error, need to Complete
         // TODO: checksum
-        if(!(memcmp("update", &rxbuffer[total_bytes-6], 6)))
-		{
-			total_bytes -= 6;
-			start_update_flag = 1;
-			udp_update_svr_send_msg("\r\nStart QSPI Update\r\n");
-		}
+//        if(!(memcmp("update", &rxbuffer[total_bytes-6], 6)))
+//		{
+//			total_bytes -= 6;
+//			start_update_flag = 1;
+//			udp_update_svr_send_msg("\r\nStart QSPI Update\r\n");
+//		}
+
+
     }
 
     pbuf_free(p);
@@ -190,14 +165,9 @@ int start_udp_update_application(void)
 
 void transfer_udp_update_data(void)
 {
-    char msg[60];
 	if (start_update_flag)
 	{
-//		Status = update_qspi(&QspiInstance, QSPIPSU_DEVICE_ID, ReceivedCount, FlashRxBuffer) ;
-//		if (Status != XST_SUCCESS)
-//			bsp_printf(TXT_RED "In %s: Update flash failed...\r\n" TXT_RST, __func__);
-//		StartUpdate = 0 ;
-//		ReceivedCount = 0;
+	    char msg[60];
         bsp_printf("Start QSPI Update!\r\n");
         bsp_printf("file size of BOOT.bin is %lu Bytes\r\n", total_bytes);
         sprintf(msg, "file size of BOOT.bin is %lu Bytes\r\n", total_bytes);
